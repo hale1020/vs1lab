@@ -32,10 +32,10 @@
             <form id="tag-form" action="/tagging" method="post">
 
                 <label for="latitude">Latitude:</label>
-                <input type="text" name="latitude" id="latitude"  placeholder="" size="20">
+                <input type="number" name="latitude" id="latitude"  placeholder="" size="20">
 
                 <label for="longitude">Longitude:</label>
-                <input type="text" name="longitude" id="longitude" size="20">
+                <input type="number" name="longitude" id="longitude" size="20">
 
                 <label for="name">Name:</label>
                 <input reequired="required" type="text" name="name" id="name" placeholder="z.B HKA Campus"size="20" maxlength="10">
@@ -43,8 +43,9 @@
                 <label for="hashtag">Hashtag:</label>
                 <input type="text" name="hashtag" id="hashtag" placeholder="z.B #HKA" size="20" maxlength="10" >
 
-                <label for="submit-tagging"></label>
-                <input type="submit" name="submit-tagging" id="submit-tagging">
+            
+                <button name="submit" type="submit" value="submit-tagging">Add Tag</button>
+</form>
                 <!-- ... your code here ... -->
 
             </form>
@@ -71,9 +72,9 @@
                 <label for="searchterm">Suchbegriff:</label>
                 <input type="text" name="searchterm" id="searchterm" size="30">
 
-                <input type="text" hidden name="longitude" id="longitude2" size="30">
+                <input type="number" hidden name="longitude" id="longitude2" size="30">
             
-                <input type="text" hidden name="latitude" id="latitude2" size="30">
+                <input type="number" hidden name="latitude" id="latitude2" size="30">
 
                 <label for="submit-discovery"></label>
                 <input type="submit" name="submit-discovery" id="submit-discovery" placeholder="z.B HKA">
