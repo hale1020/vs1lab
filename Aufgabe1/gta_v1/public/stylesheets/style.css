@@ -108,7 +108,39 @@ a {
 
 
 /* ### TODO ### Styles for Header Component */
+header{
+  display: flexbox;
+  background-color: darkgray;
+  justify-content: space-between;
+}
 
+img{
+  align-self: flex-start;
+  size: 3cm;
+  order: 1;
+}
+
+h1{
+align-self: center;
+size: 5cm;
+order: 2;
+}
+
+nav{
+  align-self: flex-end;
+  order: 3;
+}
+
+main{
+  display: flexbox;
+  background-color: white;
+  justify-content: space-between;
+}
+
+.main_tagging{
+  order: 1;
+  justify-self: stretch;
+}
 /* ... your code here ... */
 
 
