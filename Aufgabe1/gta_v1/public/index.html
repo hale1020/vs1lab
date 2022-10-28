@@ -39,14 +39,13 @@
                 <input type="number" name="longitude" id="longitude" size="20">
 
                 <label for="name">Name:</label>
-                <input reequired="required" type="text" name="name" id="name" placeholder="z.B HKA Campus"size="20" maxlength="10">
+                <input reequired="required" type="text" name="name" id="name" placeholder="e.g. HKA Campus"size="20" maxlength="10">
 
                 <label for="hashtag">Hashtag:</label>
-                <input type="text" name="hashtag" id="hashtag" placeholder="z.B #HKA" size="20" maxlength="10" pattern="[#]{1}-[A-Za-z0-9]{0-10}" >
+                <input type="text" name="hashtag" id="hashtag" placeholder="e.g. #HKA" size="19" maxlength="10" pattern="[#]{1}-[A-Za-z0-9]{0-10}" >
 
-            
-                <button name="submit" type="submit" value="submit-tagging">Add Tag</button>
-</form>
+                <label for="submit-tagging"></label>
+                <input type="submit" name="submit-tagging" id="submit-tagging">
                 <!-- ... your code here ... -->
 
             </form>
@@ -68,8 +67,8 @@
             <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post">
                 
             
-                <label for="searchterm">Suchbegriff:</label>
-                <input type="text" name="searchterm" id="searchterm" size="30">
+                <label for="searchterm">Search term or keywords:</label>
+                <input type="text" name="searchterm" id="searchterm" placeholder="e.g. Berlin" size="30">
 
                 <input type="number" hidden name="longitude" id="longitude2" size="30">
             
