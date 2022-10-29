@@ -132,14 +132,23 @@ nav{
 }
 
 main{
-  display: flexbox;
+  display: flex;
   background-color: white;
   justify-content: space-between;
+  flex-direction: row;
 }
 
-.main_tagging{
+.main__tagging{
+  display: block;
   order: 1;
   justify-self: stretch;
+  
+}
+
+.main__discovery {
+  order: 2;
+  display: block;
+
 }
 /* ... your code here ... */
 
