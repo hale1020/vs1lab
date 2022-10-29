@@ -126,6 +126,10 @@ size: 5cm;
 order: 2;
 }
 
+h2{
+  margin-bottom: 10px;
+}
+
 nav{
   align-self: flex-end;
   order: 3;
@@ -138,10 +142,28 @@ main{
   flex-direction: row;
 }
 
+.main fieldset{
+  border: 2px solid lightgray;
+  margin-bottom: 30px; 
+}
+
+.main__discovery input{
+  margin: 0 8px ;
+  width: 40%;
+}
+
+.main__tagging input{
+  margin: 0 8px ;
+  width: 80%;
+}
+
 .main__tagging{
   display: block;
   order: 1;
   justify-self: stretch;
+  position: relative;
+  bottom: -30px;
+  left: 30px;
 }
 
 .main__tagging label{
@@ -153,6 +175,9 @@ main{
 .main__discovery {
   order: 2;
   display: block;
+  position: relative;
+  bottom: -30px;
+  right: 30px;
 }
 
 .main__discovery label{
@@ -164,6 +189,19 @@ main{
 .discovery__wrapper{
   display: flex;
 }
+
+.discovery__results li {
+  list-style-type: none;
+  border: 1px solid rgb(148, 142, 142);
+  padding: 8px;
+  margin: 10px 0;
+  color:  #00B7FF;
+  background-color: lightgray;
+}
+
+
+
+
 /* ... your code here ... */
 
 
