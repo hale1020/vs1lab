@@ -142,13 +142,27 @@ main{
   display: block;
   order: 1;
   justify-self: stretch;
-  
+}
+
+.main__tagging label{
+  display: block;
+  margin: 5px;
+  padding: 5px;
 }
 
 .main__discovery {
   order: 2;
   display: block;
+}
 
+.main__discovery label{
+  display: block;
+  margin: 5px;
+  padding: 5px;
+}
+
+.discovery__wrapper{
+  display: flex;
 }
 /* ... your code here ... */
 
