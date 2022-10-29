@@ -109,37 +109,126 @@ a {
 
 /* ### TODO ### Styles for Header Component */
 header{
-  display: flexbox;
-  background-color: darkgray;
+  display: flex;
+  background-color: lightgray;
   justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  border-color: darkgray;
 }
 
-img{
+.header__image{
   align-self: flex-start;
-  size: 3cm;
   order: 1;
+  margin: 20px;
 }
 
-h1{
+.header__title{
 align-self: center;
 size: 5cm;
 order: 2;
+margin: 20px;
+justify-self: center;
 }
 
-nav{
+.header__navigation{
   align-self: flex-end;
   order: 3;
+  margin: 20px;
 }
 
 main{
-  display: flexbox;
+  display: flex;
   background-color: white;
   justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
 }
 
-.main_tagging{
+.main fieldset{
+  border: 2px solid lightgray;
+  margin-bottom: 30px; 
+}
+
+.main__tagging input{
+  margin: 0 8px ;
+  width: 80%;
+}
+
+.main__tagging{
+  display: flex;
   order: 1;
-  justify-self: stretch;
+  justify-self: flex-start;
+  position: relative;
+  bottom: -30px;
+  left: 30px;
+  flex-direction: column;
+  justify-content: space-between;
+  justify-content: center;
+}
+
+.latitude{
+  order: 1;
+  justify-self: center;
+}
+
+.longitude{
+  order: 2;
+  justify-self: center;
+}
+
+.name{
+  order: 2;
+  justify-self: center;
+}
+
+.hashtag{
+  order: 3;
+  justify-self: center;
+}
+
+.submit-tagging{
+  order: 4;
+  justify-self: center;
+}
+
+.main__discovery input{
+  margin: 0 8px ;
+  width: 40%;
+}
+
+.main__discovery{
+  order: 2;
+  display: flex;
+  position: relative;
+  bottom: -30px;
+  right: 30px;
+}
+
+.discovery__results li {
+  list-style-type: none;
+  border: 1px solid rgb(148, 142, 142);
+  padding: 8px;
+  margin: 10px 0;
+  color:  #00B7FF;
+  background-color: lightgray;
+}
+
+.footer{
+  display: flex;
+  background-color: lightgray;
+  justify-items: space-around;
+  flex-direction: row;
+  border-color: darkgray;
+  height: 100px;
+  align-items: center;
+}
+
+span{
+  margin: 20px;
+  justify-self: center;
+  font-weight: bold;
+  padding-top: 10px;
 }
 /* ... your code here ... */
 
