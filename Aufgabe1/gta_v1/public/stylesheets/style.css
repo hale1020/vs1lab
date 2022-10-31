@@ -182,14 +182,6 @@ main{
   margin: 10px;
 }
 
-
-.submit-tagging{
-  order: 4;
-  justify-self: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
 .main__discovery input{
   display: flex;
   margin-bottom: 10px;
@@ -228,7 +220,7 @@ main{
 
 .discovery__results li {
   list-style-type: none;
-  border: 1px solid rgb(148, 142, 142);
+  border: 1px solid rgb(230, 230, 230);
   padding: 8px;
   margin: 10px 0;
   color:  #00B7FF;
@@ -244,6 +236,7 @@ main{
   border-color: darkgray;
   height: 60px;
   align-items: center;
+  clear: right;
 }
 
 
@@ -253,6 +246,11 @@ span{
   justify-self: center;
   font-weight: bold;
   padding-top: 10px;
+}
+
+#submit-discovery{
+  display: flex;
+  text-align: center;
 }
 /* ... your code here ... */
 
