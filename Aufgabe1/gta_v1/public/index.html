@@ -57,7 +57,7 @@
     
         </section>
 
-        <section class="main__discovery col-7 discovery">
+        <section class="main__discovery col-7">
             
             <h2 class="discovery__title">Discovery</h2>
 
@@ -70,9 +70,9 @@
                 <label for="searchterm">Search term or keywords:</label>
                 <input type="text" name="searchterm" id="searchterm" placeholder="e.g. Berlin" size="30">
 
-                <input type="number" hidden name="longitude" id="longitude2" size="30">
+                <input type="hidden" name="longitude" id="longitude2" size="30">
             
-                <input type="number" hidden name="latitude" id="latitude2" size="30">
+                <input type="hidden" name="latitude" id="latitude2" size="30">
 
                 <label for="submit-discovery"></label>
                 <input type="submit" name="submit-discovery" id="submit-discovery" placeholder="z.B HKA">
@@ -82,15 +82,15 @@
         </fieldset>    
             <!-- ############### VS1Lab 1a Form 2 End -->
     
-            <div class="discovery__wrapper">
-                <div class="discovery__taglist col-4">
+            <div class="discovery__wrapper row">
+                <div class="discovery__taglist col-3">
                     <ul class="discovery__results" id="discoveryResults">
                         <li>Castle (49.01379, 8.404435) #sight</li>
                         <li>IWI (49.01379, 8.390071) #edu</li>
                     </ul>
                 </div>
 
-                <div class="discovery__map col-3">
+                <div class="discovery__map col-9">
                     <img src="./images/mapview.jpg" alt="a map with locations" id="mapView" />
                     <p>Result map</p>
                 </div>
