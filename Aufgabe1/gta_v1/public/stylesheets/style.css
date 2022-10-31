@@ -153,7 +153,8 @@ main{
 
 .main__tagging input{
   display: flex;
-  margin: 8 0px ;
+  margin-bottom: 10px;
+  padding: 8px;
   width: 80%;
   justify-content: space-around;
   justify-content: space-between;
@@ -191,7 +192,8 @@ main{
 
 .main__discovery input{
   display: flex;
-  margin: 0 8px ;
+  margin-bottom: 10px;
+  padding: 8px;
   width: 40%;
   align-items: center;
 }
@@ -205,6 +207,14 @@ main{
   flex-direction: column;
   justify-items: center;
   justify-self: stretch;
+}
+
+.discovery__title{
+  margin-bottom: 10px;
+}
+
+.tagging__title{
+  margin-bottom: 10px;
 }
 
 .searchterm{
@@ -223,6 +233,7 @@ main{
   margin: 10px 0;
   color:  #00B7FF;
   background-color: lightgray;
+  display: flex;
 }
 
 .footer{
@@ -231,7 +242,7 @@ main{
   justify-items: space-around;
   flex-direction: row;
   border-color: darkgray;
-  height: 100px;
+  height: 60px;
   align-items: center;
 }
 
