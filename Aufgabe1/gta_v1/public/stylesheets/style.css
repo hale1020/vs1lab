@@ -276,9 +276,32 @@ span{
 
 
 /* ### TODO ### Media Queries */
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 850px){
+  header {
+    flex-direction: column;
+  }
+
+  .header__image{
+    align-self: center;
+    order: 1;
+    margin: 5px;
+  }
+  
+  .header__title{
+  align-self: center;
+  size: 5cm;
+  order: 2;
+  margin: 5px;
+  justify-self: center;
+  }
+  
+  .header__navigation{
+    align-self: center;
+    order: 3;
+    margin: 5px;
+  }
    
-  .row {
+  main {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -286,8 +309,26 @@ span{
     flex: 1;
 }
 
+  .row{
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
 ul li {
     width: 80%;
+}
+
+.discovery__taglist col-3{
+    width:200%;
+    margin-left: 45px;
+}
+
+.main__tagging col-3 {
+  width: 200%;
+}
+
+.col-7{
+  margin-left: 50px;
 }
 
 .discoveryFilterForm {
