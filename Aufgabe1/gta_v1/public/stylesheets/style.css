@@ -108,7 +108,7 @@ a {
 
 
 /* ### TODO ### Styles for Header Component */
-header{
+header {
   display: flex;
   background-color: lightgray;
   justify-content: space-between;
@@ -117,27 +117,27 @@ header{
   border-color: darkgray;
 }
 
-.header__image{
+.header__image {
   align-self: flex-start;
   order: 1;
   margin: 20px;
 }
 
-.header__title{
-align-self: center;
-size: 5cm;
-order: 2;
-margin: 20px;
-justify-self: center;
+.header__title {
+  align-self: center;
+  size: 5cm;
+  order: 2;
+  margin: 20px;
+  justify-self: center;
 }
 
-.header__navigation{
+.header__navigation {
   align-self: flex-end;
   order: 3;
   margin: 20px;
 }
 
-main{
+main {
   display: flex;
   background-color: white;
   justify-content: space-between;
@@ -145,44 +145,45 @@ main{
   align-items: baseline;
 }
 
-.main fieldset{
+.main fieldset {
   border: 2px solid lightgray;
-  margin-bottom: 30px; 
+  margin-bottom: 30px;
   padding: 10px;
 }
 
-.main__tagging input{
+.main__tagging input {
   display: flex;
   margin-bottom: 10px;
   padding: 8px;
-  width: 80%;
   justify-content: space-around;
   justify-content: space-between;
   align-items: center;
   align-content: center;
   justify-items: center;
   justify-self: stretch;
-  
+
 }
 
-.main__tagging{
+.main__tagging {
   display: flex;
   order: 1;
   justify-self: flex-start;
   position: relative;
-  bottom: -30px;
-  left: 30px;
   flex-direction: column;
 
 }
 
+main section {
+  margin: 2%;
 
-.name{
+}
+
+.name {
   justify-self: center;
   margin: 10px;
 }
 
-.main__discovery input{
+.main__discovery input {
   display: flex;
   margin-bottom: 10px;
   padding: 8px;
@@ -190,31 +191,28 @@ main{
   align-items: center;
 }
 
-.main__discovery{
+.main__discovery {
   order: 2;
   display: flex;
-  position: relative;
-  bottom: -30px;
-  right: 30px;
   flex-direction: column;
   justify-items: center;
   justify-self: stretch;
 }
 
-.discovery__title{
+.discovery__title {
   margin-bottom: 10px;
 }
 
-.tagging__title{
+.tagging__title {
   margin-bottom: 10px;
 }
 
-.searchterm{
+.searchterm {
   order: 1;
- 
+
 }
 
-.submit-discovery{
+.submit-discovery {
   order: 2;
 }
 
@@ -223,12 +221,12 @@ main{
   border: 1px solid rgb(230, 230, 230);
   padding: 8px;
   margin: 10px 0;
-  color:  #00B7FF;
+  color: #00B7FF;
   background-color: lightgray;
   display: flex;
 }
 
-.footer{
+.footer {
   display: flex;
   background-color: lightgray;
   justify-items: space-around;
@@ -241,17 +239,18 @@ main{
 
 
 
-span{
+span {
   margin: 20px;
   justify-self: center;
   font-weight: bold;
   padding-top: 10px;
 }
 
-#submit-discovery{
+#submit-discovery {
   display: flex;
   text-align: center;
 }
+
 /* ... your code here ... */
 
 
@@ -276,63 +275,66 @@ span{
 
 
 /* ### TODO ### Media Queries */
-@media screen and (max-width: 850px){
+@media screen and (max-width: 850px) {
   header {
     flex-direction: column;
   }
 
-  .header__image{
+  .header__image {
     align-self: center;
     order: 1;
     margin: 5px;
   }
-  
-  .header__title{
-  align-self: center;
-  size: 5cm;
-  order: 2;
-  margin: 5px;
-  justify-self: center;
+
+  .header__title {
+    align-self: center;
+    size: 5cm;
+    order: 2;
+    margin: 5px;
+    justify-self: center;
   }
-  
-  .header__navigation{
+
+  .header__navigation {
     align-self: center;
     order: 3;
     margin: 5px;
   }
-   
+  #tagging_section {
+    width:100%;
+  }
+
+
   main {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex: 1;
-}
+  }
 
-  .row{
+  .row {
     flex-direction: column;
     justify-content: space-between;
   }
 
-ul li {
+  ul li {
     width: 80%;
-}
+  }
 
-.discovery__taglist col-3{
-    width:200%;
+  .discovery__taglist col-3 {
+    width: 200%;
     margin-left: 45px;
-}
+  }
 
-.main__tagging col-3 {
-  width: 200%;
-}
+  .main__tagging col-3 {
+    width: 200%;
+  }
 
-.col-7{
-  margin-left: 50px;
-}
+  .col-7 {
+    margin-left: 50px;
+  }
 
-.discoveryFilterForm {
-padding: 4%;
+  .discoveryFilterForm {
+    padding: 4%;
+  }
 }
-}
-
