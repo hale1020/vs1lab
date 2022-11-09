@@ -167,6 +167,10 @@ main {
 
 }
 
+#submit-tagging{
+  margin-top: 6%;
+}
+
 .main__tagging {
   display: flex;
   order: 1;
@@ -190,8 +194,14 @@ main section {
   display: flex;
   margin-bottom: 5%;
   padding: 4%;
-  width: 40%;
+  width: 80%;
   align-items: center;
+}
+
+#submit-discovery {
+  margin-top: 2%;
+  margin-bottom: 4%;
+  padding: 2%;
 }
 
 #discovery_section {
