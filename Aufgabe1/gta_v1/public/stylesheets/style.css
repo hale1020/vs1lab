@@ -154,11 +154,13 @@ main {
 
 .main__tagging input {
   display: flex;
+  width:80%;
   margin-bottom: 3%;
   padding: 2%;
   justify-content: space-around;
   justify-content: space-between;
   align-items: center;
+  align-self: center;
   align-content: center;
   justify-items: center;
   justify-self: stretch;
@@ -215,12 +217,13 @@ main section {
   margin-bottom: 3%;
 }
 
-.searchterm {
+#searchterm {
   order: 1;
+  padding: 2%;
 
 }
 
-.submit-discovery {
+#submit-discovery {
   order: 2;
 }
 
@@ -296,9 +299,9 @@ span {
   }
 
   .header__image {
-    align-self: left;
+    align-self: center;
     order: 1;
-    margin: 0%;
+    margin: 2%;
     padding-bottom: 0%;
     size: 100%;
   }
@@ -314,7 +317,7 @@ span {
   .header__navigation {
     align-self: center;
     order: 3;
-    margin: 5%;
+    margin: 2%;
   }
 
   main {
@@ -336,7 +339,7 @@ span {
 
   #tagging_section{
     width: 100%;
-    padding-right: 35% ;
+    padding-right: 4% ;
     margin: 2%;
     margin-bottom: 0%;
    
@@ -348,11 +351,11 @@ span {
   }
 
   #discovery_section{
-    margin: 2%;
+    width: 100%;
+    padding-right: 4%;
   }
 
   #discoveryFilterForm {
-    padding: 4%;
     width: 100%;
   }
 
@@ -365,12 +368,10 @@ span {
   ul li {
     width: 100%;
     list-style-type: none;
-    padding: 5%;
-    padding-right: 100% ;
+    padding-right: 0% ;
     margin-bottom: 15% ;
     color: #00B7FF;
     display: flex;
-    width: 100%;
     background-color: lightgray;
     border: 2px solid rgb(230, 230, 230);
   }
