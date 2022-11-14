@@ -103,7 +103,7 @@ a {
 }
 
 .col-12 {
-  width: calc(100% - 1rem);
+  width: 100%;
 }
 
 
@@ -238,11 +238,11 @@ main section {
 }
 
 .discovery__results li {
-  width: 50%;
+  width: 90%;
   list-style-type: none;
   border: 2px solid rgb(230, 230, 230);
   padding: 8%;
-  margin: 0% ;
+  margin: 0% 2%;
   color: #00B7FF;
   background-color: lightgray;
   display: flex;
@@ -384,5 +384,9 @@ span {
     display: flex;
     background-color: lightgray;
     border: 2px solid rgb(230, 230, 230);
+  }
+
+  .discovery__results li{
+    width: 100%;
   }
 }
