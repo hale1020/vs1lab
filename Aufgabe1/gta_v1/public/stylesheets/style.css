@@ -242,7 +242,7 @@ main section {
   list-style-type: none;
   border: 2px solid rgb(230, 230, 230);
   padding: 8%;
-  margin: 2% ;
+  margin: 0% ;
   color: #00B7FF;
   background-color: lightgray;
   display: flex;
