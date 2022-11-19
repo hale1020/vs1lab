@@ -15,6 +15,7 @@ console.log("The geoTagging script is going to start...");
 class LocationHelper {
     // Location values for latitude and longitude are private properties to protect them from changes.
     #latitude = '';
+    #longitude = '';
 
     /**
      * Getter method allows read access to privat location property.
@@ -102,7 +103,17 @@ class MapManager {
  * A function to retrieve the current location and update the page.
  * It is called once the page has been fully loaded.
  */
-// ... your code here ...
+updateLocation(callback){
+    const geoLocationApi = navigator.geolocation;
+    helper.findLocation;
+    geoLocationApi.updateLocation((location) =>{
+        helper.latitude = location.latitude;
+        helper.longitude = location.longitude;
+        let helper = new LocationHelper();
+        callback(helper);
+    });
+}
+
 
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
