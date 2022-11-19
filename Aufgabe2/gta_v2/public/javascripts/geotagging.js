@@ -103,14 +103,20 @@ class MapManager {
  * A function to retrieve the current location and update the page.
  * It is called once the page has been fully loaded.
  */
-updateLocation(callback){
+    updateLocation(callback) {
     const geoLocationApi = navigator.geolocation;
+    if (!geoLocationApi) {
+        throw new Error("The GeoLocation API is unavailable.");
+    }
+    
     helper.findLocation;
     geoLocationApi.updateLocation((location) =>{
         helper.latitude = location.latitude;
         helper.longitude = location.longitude;
         let helper = new LocationHelper();
         callback(helper);
+    } , (error) => {
+        alert(error.message)
     });
 }
 
