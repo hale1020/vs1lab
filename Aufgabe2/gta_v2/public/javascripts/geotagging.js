@@ -107,11 +107,11 @@ class MapManager {
  
     let helper = new LocationHelper();
     function callback(helper){
-        var longitudeDiscovery = document.getElementById("longitude2")
-        var latitudeDiscovery = document.getElementById("latitude2")
+        var longitudeDiscovery = document.getElementById("longitude2");
+        var latitudeDiscovery = document.getElementById("latitude2");
         
-        var longitudeTagging = document.getElementById("longitude")
-        var latitudeTagging = document.getElementById("latitude")
+        var longitudeTagging = document.getElementById("longitude");
+        var latitudeTagging = document.getElementById("latitude");
 
         longitudeDiscovery.setAttribute("value", helper.longtidue);
         latitudeDiscovery.setAttribute("value", helper.latitude);
@@ -119,6 +119,9 @@ class MapManager {
         longitudeTagging.setAttribute("value", helper.longitude);
         latitudeTagging.setAttribute("value", helper.latitude);
 
+        var manager = new MapManager("aIZ7cNFzGEGgftKYfckP0mpZv1gJtSCG");
+        var map = document.getElementById("mapView")
+        map.setAttribute("src", manager.getMapUrl(helper.latitude, helper.longitude));
     }
 
     LocationHelper.findLocation(callback);
@@ -128,5 +131,6 @@ class MapManager {
 
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
+    updateLocation();
     alert("Please change the script 'geotagging.js'");
 });
