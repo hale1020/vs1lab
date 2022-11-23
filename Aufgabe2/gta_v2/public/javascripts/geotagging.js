@@ -104,20 +104,25 @@ class MapManager {
  * It is called once the page has been fully loaded.
  */
    function updateLocation(callback) {
-    const geoLocationApi = navigator.geolocation;
-    if (!geoLocationApi) {
-        throw new Error("The GeoLocation API is unavailable.");
+ 
+    let helper = new LocationHelper();
+    function callback(helper){
+        var longitudeDiscovery = document.getElementById("longitude2")
+        var latitudeDiscovery = document.getElementById("latitude2")
+        
+        var longitudeTagging = document.getElementById("longitude")
+        var latitudeTagging = document.getElementById("latitude")
+
+        longitudeDiscovery.setAttribute("value", helper.longtidue);
+        latitudeDiscovery.setAttribute("value", helper.latitude);
+
+        longitudeTagging.setAttribute("value", helper.longitude);
+        latitudeTagging.setAttribute("value", helper.latitude);
+
     }
 
-    helper.findLocation;
-    geoLocationApi.updateLocation((location) => {
-        let helper = new LocationHelper();
-        helper.latitude = location.latitude;
-        helper.longitude = location.longitude;
-        callback(helper);
-    } , (error) => {
-        alert(error.message)
-    });
+    LocationHelper.findLocation(callback);
+   
 }
 
 
