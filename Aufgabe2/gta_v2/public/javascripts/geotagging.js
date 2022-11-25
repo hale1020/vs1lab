@@ -111,7 +111,7 @@ class MapManager {
         var longitudeTagging = document.getElementById("longitude");
         var latitudeTagging = document.getElementById("latitude");
 
-        longitudeDiscovery.setAttribute("value", helper.longtidue);
+        longitudeDiscovery.setAttribute("value", helper.longitude);
         latitudeDiscovery.setAttribute("value", helper.latitude);
 
         longitudeTagging.setAttribute("value", helper.longitude);
