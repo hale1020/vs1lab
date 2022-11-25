@@ -24,8 +24,6 @@ class LocationHelper {
         return this.#latitude;
     }
 
-    #longitude = '';
-
     get longitude() {
         return this.#longitude;
     }
@@ -132,5 +130,4 @@ class MapManager {
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
     updateLocation();
-    alert("Please change the script 'geotagging.js'");
 });
