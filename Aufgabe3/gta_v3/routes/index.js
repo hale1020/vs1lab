@@ -78,6 +78,20 @@ router.get('/', (req, res) => {
  * by radius and keyword.
  */
 
-// TODO: ... your code here ...
+ router.post("/discovery", (req, res) => {
+   
+  let search = req.body.searchterm;
+  let nearbyGeoTags = store.searchNearbyGeoTags(search);
+  
+  console.log(nearbyGeoTags); //Ausgabe der nahen Tags
+
+  res.render("index", {
+    taglist: nearbyGeoTags,
+    currentLatitude: req.body.latitude,
+    currentLongitude: req.body.longitude,
+    mapTaglist: JSON.stringify(store.geoTags),
+    hashtag: req.body.hashtag,
+  });
+});
 
 module.exports = router;
