@@ -32,8 +32,8 @@ class InMemoryGeoTagStore{
     
     #alltags = [];
 
-    addGeoTag(gT){
-        this.#alltags.push(gT);
+    addGeoTag(GeoTag){
+        this.#alltags.push(GeoTag);
     }
 
     get geoTags(){
@@ -69,9 +69,16 @@ class InMemoryGeoTagStore{
         })
         return ret;
     }
+
+
+    populate() {
+        GeoTagExamples.tagList.forEach((tag) => {
+            var newGeoTag = new GeoTag(tag[1], tag[2], tag[0], tag[3]);
+            this.addGeoTag(newGeoTag);
+        });
+              };
+
 }
-
-
 
 
 module.exports = InMemoryGeoTagStore
