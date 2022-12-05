@@ -25,8 +25,53 @@
  */
 class InMemoryGeoTagStore{
 
-    // TODO: ... your code here ...
+    constructor() {
+        this.populate();
+    }
 
+    
+    #alltags = [];
+
+    addGeoTag(gT){
+        this.#alltags.push(gT);
+    }
+
+    get geoTags(){
+        return this.#alltags;
+    }
+
+    removeGeoTag(GeoTag){
+        this.#alltags=this.#alltags.filter(element => {
+            if (element.name!=GeoTag.name){return true;}}); //? return element???
+        }
+
+    getNearbyGeoTags(location){
+        var nearby=[];
+        var proximity_radius=0.5;
+
+        this.#alltags.forEach(element => {
+            var distance= Math.sqrt(Math.pow(element.lat-location.lat,2)+Math.pow(element.long-location.long,2));
+            if (distance<=radius){
+                nearby.push(element);
+            }
+        });
+        return nearby;
+    }
+
+    searchNearbyGeoTags(location, keyword){
+        var nearby_tags= getNearbyGeoTags(location)
+        var ret=[];
+        nearby_tags.forEach(element =>{
+            if (element.name.includes(keyword)||element.hashtag.includes(keyword)){
+                ret.push(element);
+            }
+
+        })
+        return ret;
+    }
 }
+
+
+
 
 module.exports = InMemoryGeoTagStore
