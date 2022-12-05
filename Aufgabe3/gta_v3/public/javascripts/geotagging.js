@@ -12,14 +12,12 @@ console.log("The geoTagging script is going to start...");
 /**
  * A class to help using the HTML5 Geolocation API.
  */
-class LocationHelper {
+/*class LocationHelper {
     // Location values for latitude and longitude are private properties to protect them from changes.
     #latitude = '';
     #longitude = '';
 
-    /**
-     * Getter method allows read access to privat location property.
-     */
+
     get latitude() {
         return this.#latitude;
     }
@@ -28,12 +26,7 @@ class LocationHelper {
         return this.#longitude;
     }
 
-    /**
-     * The 'findLocation' method requests the current location details through the geolocation API.
-     * It is a static method that should be used to obtain an instance of LocationHelper.
-     * Throws an exception if the geolocation API is not available.
-     * @param {*} callback a function that will be called with a LocationHelper instance as parameter, that has the current location details
-     */
+
     static findLocation(callback) {
         const geoLocationApi = navigator.geolocation;
 
@@ -58,28 +51,15 @@ class LocationHelper {
     }
 }
 
-/**
- * A class to help using the MapQuest map service.
- */
+
 class MapManager {
     #apiKey = '';
 
-    /**
-     * Create a new MapManager instance.
-     * @param {string} apiKey Your MapQuest API Key
-     */
     constructor(apiKey) {
         this.#apiKey = apiKey;
     }
 
-    /**
-     * Generate a MapQuest image URL for the specified parameters.
-     * @param {number} latitude The map center latitude
-     * @param {number} longitude The map center longitude
-     * @param {{latitude, longitude, name}[]} tags The map tags, defaults to just the current location
-     * @param {number} zoom The map zoom, defaults to 10
-     * @returns {string} URL of generated map
-     */
+
     getMapUrl(latitude, longitude, tags = [], zoom = 10) {
         if (this.#apiKey === '') {
             console.log("No API key provided.");
@@ -95,15 +75,11 @@ class MapManager {
         return mapQuestUrl;
     }
 }
-
-/**
- * TODO: 'updateLocation'
- * A function to retrieve the current location and update the page.
- * It is called once the page has been fully loaded.
- */
+*/
    function updateLocation(callback) {
  
     let helper = new LocationHelper();
+
     function callback(helper){
         var longitudeDiscovery = document.getElementById("longitude2");
         var latitudeDiscovery = document.getElementById("latitude2");
@@ -122,7 +98,22 @@ class MapManager {
         map.setAttribute("src", manager.getMapUrl(helper.latitude, helper.longitude));
     }
 
-    LocationHelper.findLocation(callback);
+    if (document.getElementById("longitude") === "" && document.getElementById("latitude") === "") {
+        LocationHelper.findLocation(callback);
+    }
+    var long = document.getElementById("longitude");
+    var lat = document.getElementById("latitude");
+    const latV = lat.getAttribute("value");
+    const longV = long.getAttribute("value");
+    if ((longV === "") || (latV === "")) {
+        LocationHelper.findLocation(callback)}
+    else{
+        var manager = new MapManager("1fuMAYDadogIhChVgO3HQp5oc01EVfDb"); //????
+        var map = document.getElementById("mapView");
+        let taglist_json = map.getAttribute("data-tags");
+        let taglist_obj = JSON.parse(taglist_json);
+        map.setAttribute("src", manager.getMapUrl(latV, longV, taglist_obj, 12))
+    }
    
 }
 
