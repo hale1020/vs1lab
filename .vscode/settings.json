@@ -1,4 +1,5 @@
 {
     "liveServer.settings.port": 5501,
-    "nrf-connect.toolchain.path": "${nrf-connect.toolchain:1.9.1}"
+    "nrf-connect.toolchain.path": "${nrf-connect.toolchain:1.9.1}",
+    "nrf-connect.topdir": "${nrf-connect.sdk:1.9.1}"
 }

@@ -93,9 +93,12 @@ class MapManager {
         longitudeTagging.setAttribute("value", helper.longitude);
         latitudeTagging.setAttribute("value", helper.latitude);
 
+        var tagListString = map.getAttribute("data-tags");
+        var tagListParsed = JSON.parse(tagListString);
+
         var manager = new MapManager("aIZ7cNFzGEGgftKYfckP0mpZv1gJtSCG");
         var map = document.getElementById("mapView")
-        map.setAttribute("src", manager.getMapUrl(helper.latitude, helper.longitude));
+        map.setAttribute("src", manager.getMapUrl(helper.latitude, helper.longitude, tagListParsed));
     }
 
     if (document.getElementById("longitude") === "" && document.getElementById("latitude") === "") {
