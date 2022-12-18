@@ -36,7 +36,7 @@ class InMemoryGeoTagStore{
         this.#alltags.push(GeoTag);
     }
 
-    getGeoTags(){
+    get GeoTags(){
         return this.#alltags;
     }
 
