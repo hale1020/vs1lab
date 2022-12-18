@@ -54,7 +54,7 @@ class InMemoryGeoTagStore{
 
         this.#alltags.forEach(element => {
             var distance= Math.sqrt(Math.pow(element.lat-location.lat,2)+Math.pow(element.long-location.long,2));
-            if (distance<=radius){
+            if (distance<=proximity_radius){
                 nearby.push(element);
             }
         });

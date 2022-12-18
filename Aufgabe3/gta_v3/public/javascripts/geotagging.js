@@ -1,3 +1,6 @@
+import { LocationHelper } from './location-helper.js';
+import { MapManager } from './map-manager.js';
+
 // File origin: VS1LAB A2
 
 /* eslint-disable no-unused-vars */
@@ -76,52 +79,64 @@ class MapManager {
     }
 }
 */
-   function updateLocation(callback) {
- 
-    let helper = new LocationHelper();
+export function updateLocation() {
 
-    function callback(helper){
-        var longitudeDiscovery = document.getElementById("longitude2");
-        var latitudeDiscovery = document.getElementById("latitude2");
-        
-        var longitudeTagging = document.getElementById("longitude");
-        var latitudeTagging = document.getElementById("latitude");
+    /* Input Field Variables */
+    let disc_hidden_long = document.getElementById("discovery_hidden_longitude");
 
-        longitudeDiscovery.setAttribute("value", helper.longitude);
-        latitudeDiscovery.setAttribute("value", helper.latitude);
+    let disc_hidden_lat = document.getElementById("discovery_hidden_latitude");
+    /* Hidden Input Field Variables */
+    let tag_long = document.getElementById("long");
+    let tag_lat = document.getElementById("lat");
+    /* Map View Image Element */
+    let image_view = document.getElementById("mapView");
 
-        longitudeTagging.setAttribute("value", helper.longitude);
-        latitudeTagging.setAttribute("value", helper.latitude);
+    if (document.getElementById("discovery_hidden_longitude").value === '' || document.getElementById("discovery_hidden_latitude").value === '') {
+        LocationHelper.findLocation((helper) => {
 
-        var tagListString = map.getAttribute("data-tags");
-        var tagListParsed = JSON.parse(tagListString);
+            /* Constant lat and long */
+            const latitude = helper.latitude;
+            const longitude = helper.longitude;
 
-        var manager = new MapManager("aIZ7cNFzGEGgftKYfckP0mpZv1gJtSCG");
-        var map = document.getElementById("mapView")
-        map.setAttribute("src", manager.getMapUrl(helper.latitude, helper.longitude, tagListParsed));
+            /* Readonly Input change */
+            tag_lat.value = latitude;
+            tag_long.value = longitude;
+
+            /* Hidden Input change */
+            disc_hidden_lat.value = latitude;
+            disc_hidden_long.value = longitude;
+        });
     }
 
-    if (document.getElementById("longitude") === "" && document.getElementById("latitude") === "") {
-        LocationHelper.findLocation(callback);
+    let dataTags = image_view.getAttribute('data-tags');
+    let tags = [];
+    if(dataTags.length > 0) {
+        tags = JSON.parse(dataTags);
     }
-    var long = document.getElementById("longitude");
-    var lat = document.getElementById("latitude");
-    const latV = lat.getAttribute("value");
-    const longV = long.getAttribute("value");
-    if ((longV === "") || (latV === "")) {
-        LocationHelper.findLocation(callback)}
-    else{
-        var manager = new MapManager("1fuMAYDadogIhChVgO3HQp5oc01EVfDb"); //????
-        var map = document.getElementById("mapView");
-        let taglist_json = map.getAttribute("data-tags");
-        let taglist_obj = JSON.parse(taglist_json);
-        map.setAttribute("src", manager.getMapUrl(latV, longV, taglist_obj, 12))
-    }
-   
+
+    let manager = new MapManager('f64689zc2fhvhu0miIiVlLaUAchTYDWv');
+
+    setTimeout(function () {
+        image_view.src = manager.getMapUrl(disc_hidden_lat.value, disc_hidden_long.value, tags, getZoom());
+    }, 1000);
+
+    /* Zugriff auf src von <img src=""> mit image_view.src = ... */
+    /* Zugriff auf die long und lat für die MAP über disc_hidden_lat.value. Analog beim anderen auch*/
 }
 
-
-// Wait for the page to fully load its DOM content, then call updateLocation
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
     updateLocation();
 });
+
+document.getElementById("zoomSlider_input").addEventListener('change', () => {
+    updateLocation();
+});
+
+document.getElementById("button_refresh").addEventListener('click', () => {
+    updateLocation();
+});
+
+function getZoom() {
+    let zoomSlider = document.getElementById("zoomSlider_input");
+    return zoomSlider.value;
+}
