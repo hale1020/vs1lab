@@ -62,7 +62,7 @@ class InMemoryGeoTagStore{
     }
 
     searchNearbyGeoTags(location, keyword){
-        var nearby_tags= getNearbyGeoTags(location)
+        var nearby_tags= this.getNearbyGeoTags(location);
         var ret=[];
         nearby_tags.forEach(element =>{
             if (element.name.includes(keyword)||element.hashtag.includes(keyword)){
