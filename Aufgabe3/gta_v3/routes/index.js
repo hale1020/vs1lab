@@ -62,13 +62,18 @@ router.get('/', (req, res) => {
 
 // TODO: ... your code here ...
 router.post("/tagging", (req, res) => {
-
+  let latitude = req.body.latitude;
+  let longitude = req.body.longitude;
+  let name = req.body.name;
   let hashTag = req.body.Hashtag;
   console.log(req.body);
-  let geoTag = new GeoTag(req.body.latitude, req.body.longitude, req.body.name, hashTag);
+
+  let geoTag = new GeoTag(latitude, longitude, name, hashTag);
   let nearbyGeoTags = store.getNearbyGeoTags(geoTag);
+
   nearbyGeoTags.push(geoTag);
   store.addGeoTag(geoTag);
+
   res.render("index", {
     taglist: nearbyGeoTags,
     currentLatitude: req.body.latitude,

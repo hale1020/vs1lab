@@ -1,6 +1,4 @@
 <!-- TODO: HTML AUS AUFGABE2 HIERHER KOPIEREN UND DIE BEISPIEL-EINTRÄGE DER DISCOVERY-LISTE MIT DEN FOLGENDEN ZEILEN ERSETZEN -->
-
-
 <!DOCTYPE html>
 
 <!-- File origin: VS1LAB A1a -->
@@ -37,10 +35,10 @@
                 <form id="tag-form" action="/tagging" method="post">
 
                     <label for="latitude">Latitude:</label>
-                    <input type="number" name="latitude" id="latitude" placeholder="" size="20">
+                    <input type="number" name="latitude" id="latitude" placeholder="" size="20" value="<%= currentLatitude %>">
 
                     <label for="longitude">Longitude:</label>
-                    <input type="number" name="longitude" id="longitude" size="20">
+                    <input type="number" name="longitude" id="longitude" size="20" value="<%= currentLongitude %>">
 
                     <label for="name">Name:</label>
                     <input required="required" type="text" name="name" id="name" placeholder="e.g. HKA Campus" size="20"
@@ -76,9 +74,9 @@
                     <label for="searchterm">Search term or keywords:</label>
                     <input type="text" name="searchterm" id="searchterm" placeholder="e.g. Berlin" size="30">
 
-                    <input type="hidden" name="longitude" id="longitude2" size="30">
+                    <input type="hidden" name="longitude" id="longitude2" size="30" value="<%= currentLongitude %>" ">
 
-                    <input type="hidden" name="latitude" id="latitude2" size="30">
+                    <input type="hidden" name="latitude" id="latitude2" size="30" value="<%= currentLatitude %>">
 
                     <label for="submit-discovery"></label>
                     <input type="submit" name="submit-discovery" id="submit-discovery" placeholder="z.B HKA"
@@ -95,13 +93,14 @@
                         <% if (taglist !== undefined) taglist.forEach(function(gtag) { %>
                         <li>    <%= gtag.name %>
                                 (<%= gtag.latitude %>,<%= gtag.longitude %>)
-                                <%= gtag.hashtag %>  </li>
+                                <%= gtag.hashtag %>  
+                        </li>
                         <% }); %>
                     </ul>
                 </div>
 
                 <div class="discovery__map col-9">
-                    <img src="./images/mapview.jpg" alt="a map with locations" id="mapView" data-tags= <%mapTagList%> />//TODO fix
+                    <img src="./images/mapview.jpg" alt="a map with locations" id="mapView" data-tags="<%=mapTaglist%>" />
                     <p>Result map</p>
                 </div>
             </div>
