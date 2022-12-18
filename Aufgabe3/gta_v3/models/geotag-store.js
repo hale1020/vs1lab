@@ -23,6 +23,9 @@
  * - The proximity constrained is the same as for 'getNearbyGeoTags'.
  * - Keyword matching should include partial matches from name or hashtag fields. 
  */
+GeoTagExamples = require('./geotag-examples');
+GeoTag = require('./geotag');
+
 class InMemoryGeoTagStore{
 
     constructor() {
