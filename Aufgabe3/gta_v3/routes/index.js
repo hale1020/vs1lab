@@ -31,8 +31,10 @@ const GeoTag = require('../models/geotag');
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
+const {json} = require("express");
+const {stringify} = require("nodemon/lib/utils");
 
-var store = new GeoTagStore();
+let store = new GeoTagStore();
 /**
  * Route '/' for HTTP 'GET' requests.
  * (http://expressjs.com/de/4x/api.html#app.get.method)
@@ -44,7 +46,7 @@ var store = new GeoTagStore();
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [], currentLatitude: null, currentLongitude:null, mapTaglist: JSON.stringify(store.geoTags) })
+  res.render('index', { taglist: [], currentLatitude: null, currentLongitude:null, mapTaglist:[JSON.stringify(store.geoTags)]  })
 });
 
 /**
@@ -80,7 +82,7 @@ router.post("/tagging", (req, res) => {
     taglist: nearbyGeoTags,
     currentLatitude: req.body.latitude,
     currentLongitude: req.body.longitude,
-    mapTaglist: JSON.stringify(store.geoTags),
+    MapTaglist: JSON.stringify(store.geoTags),
     hashtag: hashTag
   });
 });
@@ -101,7 +103,7 @@ router.post("/tagging", (req, res) => {
  * by radius and keyword.
  */
 
- router.post("/discovery", (req, res) => {
+router.post("/discovery", (req, res) => {
    
   let search = req.body.searchterm;
   let nearbyGeoTags = store.searchNearbyGeoTags(search);
