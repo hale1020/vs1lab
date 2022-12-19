@@ -1,7 +1,7 @@
-console.log('geotagging.js is being executed');
-
 import { LocationHelper } from './location-helper.js';
 import { MapManager } from './map-manager.js';
+
+console.log('geotagging.js is being executed');
 
 // File origin: VS1LAB A2
 
@@ -68,15 +68,8 @@ function updateLocation(callback) {
 
 //Update Location????
 
-if(document.readyState !== 'loading') {
-    console.log('document is already loaded, just execute code here');
-    updateLocation();
-}
-
-else{
-    document.addEventListener('DOMContentLoaded', 
+document.addEventListener('DOMContentLoaded', 
     (event) => {
     console.log('DOM loaded');
     updateLocation();
 });
-}
