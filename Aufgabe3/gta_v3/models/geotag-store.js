@@ -65,7 +65,7 @@ class InMemoryGeoTagStore{
 
         let ret = [];
         this.#alltags.find((geoTag) => {
-            console.log(geoTag,geoTag.name);
+            //console.log(geoTag,geoTag.name);
             if (geoTag.name.includes(keyword) || geoTag.hashtag.includes(keyword)) {
                 this.getNearbyGeoTags(geoTag).find((tag) => {
                    if(!ret.includes(tag)){ret.push(tag)};
@@ -82,7 +82,7 @@ class InMemoryGeoTagStore{
         GeoTagExamples.tagList.forEach((tag) => {
             //console.log(tag)
             var newGeoTag = new GeoTag(tag[0], tag[3], tag[1], tag[2]);
-            console.log(newGeoTag)
+            //console.log(newGeoTag)
             this.addGeoTag(newGeoTag);
         });
               };
