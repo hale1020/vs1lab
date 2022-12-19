@@ -43,7 +43,7 @@ var store = new GeoTagStore();
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [], currentLatitude: null, currentLongitude:null, mapTaglist: JSON.stringify(store.geoTags) })
+  res.render('index', {currentLatitude: null, currentLongitude:null, taglist: store.GeoTags })
 });
 
 /**
@@ -66,7 +66,7 @@ router.post("/tagging", (req, res) => {
   let latitude = req.body.latitude;
   let longitude = req.body.longitude;
   let name = req.body.name;
-  let hT = req.body.Hashtag;
+  let hashTag = req.body.hashtag;
   console.log(req.body);
 
   let geoTag = new GeoTag(latitude, longitude, name, hashTag);
@@ -79,8 +79,8 @@ router.post("/tagging", (req, res) => {
     taglist: nearbyGeoTags,
     currentLatitude: req.body.latitude,
     currentLongitude: req.body.longitude,
-    MapTaglist: JSON.stringify(store.geoTags),
-    hashtag: hT
+    mapTaglist: JSON.stringify(store.geoTags),
+    hashtag: hashTag
   });
 });
 

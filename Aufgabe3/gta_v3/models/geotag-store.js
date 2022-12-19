@@ -63,24 +63,16 @@ class InMemoryGeoTagStore{
 
     searchNearbyGeoTags(keyword){
 
-        /** var nearby_tags= this.getNearbyGeoTags(location);
-        let ret=[];
-        nearby_tags.forEach(element =>{
-            if (element.name.includes(keyword)||element.hashtag.includes(keyword)){
-                ret.push(element);
-            }
-
-        })
-        return ret;*/
-
         let ret = [];
         this.#alltags.find((geoTag) => {
+            console.log(geoTag,geoTag.name);
             if (geoTag.name.includes(keyword) || geoTag.hashtag.includes(keyword)) {
-                this.getNearbyGeoTags(geoTag).find((element) => {
-                   if(!ret.includes(element)) ret.push(element);
+                this.getNearbyGeoTags(geoTag).find((tag) => {
+                   if(!ret.includes(tag)){ret.push(tag)};
           });
             }
         });
+        return ret;
 
 
     }
@@ -88,7 +80,9 @@ class InMemoryGeoTagStore{
 
     populate() {
         GeoTagExamples.tagList.forEach((tag) => {
-            var newGeoTag = new GeoTag(tag[1], tag[2], tag[0], tag[3]);
+            //console.log(tag)
+            var newGeoTag = new GeoTag(tag[0], tag[3], tag[1], tag[2]);
+            console.log(newGeoTag)
             this.addGeoTag(newGeoTag);
         });
               };
