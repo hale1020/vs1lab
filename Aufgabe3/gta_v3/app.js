@@ -44,7 +44,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // TODO: ... your code here ...
 
-app.use(express.static('public')); //Verzeichnis public zur verfügung stellen
+app.use(express.static('public')); //public bereitstellen 
 
 // Set dedicated script for routing
 app.use('/', indexRouter);

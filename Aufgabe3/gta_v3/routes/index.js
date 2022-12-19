@@ -11,7 +11,7 @@
  */
 
 const express = require('express');
-const app = require('../app');
+//const app = require('../app');
 const router = express.Router();
 
 /**
@@ -31,10 +31,7 @@ const GeoTag = require('../models/geotag');
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
-const {json} = require("express");
-const {stringify} = require("nodemon/lib/utils");
-
-let store = new GeoTagStore();
+var store = new GeoTagStore();
 /**
  * Route '/' for HTTP 'GET' requests.
  * (http://expressjs.com/de/4x/api.html#app.get.method)
@@ -46,7 +43,7 @@ let store = new GeoTagStore();
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [], currentLatitude: null, currentLongitude:null, mapTaglist:[JSON.stringify(store.geoTags)]  })
+  res.render('index', { taglist: [], currentLatitude: null, currentLongitude:null, mapTaglist: JSON.stringify(store.geoTags) })
 });
 
 /**
@@ -69,7 +66,7 @@ router.post("/tagging", (req, res) => {
   let latitude = req.body.latitude;
   let longitude = req.body.longitude;
   let name = req.body.name;
-  let hashTag = req.body.Hashtag;
+  let hT = req.body.Hashtag;
   console.log(req.body);
 
   let geoTag = new GeoTag(latitude, longitude, name, hashTag);
@@ -83,7 +80,7 @@ router.post("/tagging", (req, res) => {
     currentLatitude: req.body.latitude,
     currentLongitude: req.body.longitude,
     MapTaglist: JSON.stringify(store.geoTags),
-    hashtag: hashTag
+    hashtag: hT
   });
 });
 
