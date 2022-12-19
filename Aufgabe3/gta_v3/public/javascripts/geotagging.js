@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 var submitTagging = document.getElementById('submit-tagging');
 submitTagging.addEventListener('click',function(){updateLocation()});
 
-var submitDiscovery = document.getElementById('submit-discovery');//same thing
+var submitDiscovery = document.getElementById('submit-discovery');
 submitDiscovery.addEventListener('click',function(){updateLocation()});
 
 
