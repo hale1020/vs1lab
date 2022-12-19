@@ -49,30 +49,35 @@ class InMemoryGeoTagStore{
         }
 
     getNearbyGeoTags(location){
-        var nearby=[];
-        var proximity_radius=0.5;
+        let rad = 0.1;
 
-        this.#alltags.forEach(function(element){
-            var distance= Math.sqrt(Math.pow(element.lat-location.lat,2)+Math.pow(element.long-location.long,2));
-            if (distance<=proximity_radius){
-                nearby.push(element);
+        let entries = [];
+
+        this.#alltags.forEach((value, index, array) => {
+
+            let longitude_difference = value.longitude - location.longitude;
+            let latitude_difference = value.latitude - location.latitude;
+            if(Math.sqrt(Math.pow(longitude_difference, 2) + Math.pow(latitude_difference, 2)) <= rad) {
+                entries.push(value);
             }
         });
-        return nearby;
+
+        return entries;
     }
 
-    searchNearbyGeoTags(keyword){
+    searchNearbyGeoTags(location, keyword){
 
         let ret = [];
-        this.#alltags.find((geoTag) => {
+        let nearby = this.getNearbyGeoTags(location);
+        
+        nearby.find((value) => {
             //console.log(geoTag,geoTag.name);
-            if (geoTag.name.includes(keyword) || geoTag.hashtag.includes(keyword)) {
-                this.getNearbyGeoTags(geoTag).find((tag) => {
-                   if(!ret.includes(tag)){ret.push(tag)};
-          });
+            if (value.name.includes(keyword) || value.hashtag.includes(keyword)) {
+                ret.push(value);
             }
+                
         });
-        return ret;
+        return ret
 
 
     }

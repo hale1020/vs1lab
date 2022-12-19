@@ -69,12 +69,13 @@ router.post("/tagging", (req, res) => {
   let hashTag = req.body.hashtag;
   console.log(req.body);
 
-  let geoTag = new GeoTag(latitude, longitude, name, hashTag);
+  let geoTag = new GeoTag(name, hashTag,latitude, longitude);
   let nearbyGeoTags = store.getNearbyGeoTags(geoTag);
 
   nearbyGeoTags.push(geoTag);
+  console.log(store.geoTags);
   store.addGeoTag(geoTag);
-
+  console.log(store.geoTags);
   res.render("index", {
     taglist: nearbyGeoTags,
     currentLatitude: req.body.latitude,
@@ -101,9 +102,15 @@ router.post("/tagging", (req, res) => {
  */
 
 router.post("/discovery", (req, res) => {
-   
+  let latitude = req.body.latitude;
+  let longitude = req.body.longitude;
+  let name = req.body.name;
+  let hashTag = req.body.hashtag;
+  console.log(req.body);
+
+  let geoTag = new GeoTag(name, hashTag,latitude, longitude);
   let search = req.body.searchterm;
-  let nearbyGeoTags = store.searchNearbyGeoTags(search);
+  let nearbyGeoTags = store.searchNearbyGeoTags(geoTag, search);
   
   console.log(nearbyGeoTags); //Ausgabe der nahen Tags
 

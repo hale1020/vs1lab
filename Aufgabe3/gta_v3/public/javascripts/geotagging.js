@@ -1,8 +1,3 @@
-import { LocationHelper } from './location-helper.js';
-import { MapManager } from './map-manager.js';
-
-console.log('geotagging.js is being executed');
-
 // File origin: VS1LAB A2
 
 /* eslint-disable no-unused-vars */
@@ -13,10 +8,9 @@ console.log('geotagging.js is being executed');
 // The console window must be opened explicitly in the browser.
 // Try to find this output in the browser...
 
-function updateLocation(callback) {
-    console.log("Update Location starts!!");
+async function updateLocation(callback) {
     let helper = new LocationHelper();
-    LocationHelper.findLocation(callback);
+    await LocationHelper.findLocation(callback);
 
     function callback(helper){
         var longitudeDiscovery = document.getElementById("longitude2");
@@ -32,37 +26,37 @@ function updateLocation(callback) {
         latitudeTagging.setAttribute("value", helper.latitude);
 
         var manager = new MapManager("f64689zc2fhvhu0miIiVlLaUAchTYDWv");
-        var map = document.getElementById("mapView")
-        map.setAttribute("src", manager.getMapUrl(helper.latitude, helper.longitude));
+    var map = document.getElementById("mapView")
+    var map_view = document.getElementById("mapView");
+    let taglist_json_string = map_view.getAttribute("data-tags");
+    let taglist_json = JSON.parse(taglist_json_string);
+
+
+    map.setAttribute("src", manager.getMapUrl(helper.latitude, helper.longitude, taglist_json));
     }
 
     //LocationHelper.findLocation(callback);
 
     if (document.getElementById("longitude2").value === '' && document.getElementById("latitude2").value === '') {
-        LocationHelper.findLocation((helper) => {
+        await LocationHelper.findLocation((helper) => {
 
             /* Constant lat and long */
             const latitude = helper.latitude;
             const longitude = helper.longitude;
 
             /* Readonly Input change */
-            document.getElementById(latitude).value = latitude;
-            document.getElementById(longitude).value = longitude;
+            document.getElementById("latitude").value = latitude;
+            document.getElementById("longitude").value = longitude;
 
             /* Hidden Input change */
-            document.getElementById(latitude2).value = latitude;
-            document.getElementById(longitude2).value = longitude;
+            document.getElementById("latitude2").value = latitude;
+            document.getElementById("longitude2").value = longitude;
         });
+
+        
+        
     }
-
-    let manager = new MapManager("f64689zc2fhvhu0miIiVlLaUAchTYDWv"); 
-    var map_view = document.getElementById("mapView");
-    let taglist_json = map_view.getAttribute("data-tags");
-    var mapTaglist = JSON.parse(taglist_json);
-    console.log(mapTaglist);
-    map_view.setAttribute("src", manager.getMapUrl(helper.latitude, helper.longitude, mapTaglist, 12))
-
-
+    
 }  
 
 

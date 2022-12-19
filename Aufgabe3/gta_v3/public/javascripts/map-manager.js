@@ -23,15 +23,21 @@ class MapManager {
      * @param {number} zoom The map zoom, defaults to 11
      * @returns {string} URL of generated map
      */
-    getMapUrl(latitude, longitude, tags = [], zoom = 11) {
+    //Zoom war vorher auf 12 gesetzt. 
+    getMapUrl(latitude, longitude, tags = [], zoom = 16) {
         if (!this.#apiKey) {
             console.log("No API key provided.");
             return "images/mapview.jpg";
         }
-
+        
         let tagList = `${latitude},${longitude}|marker-start`;
-        tagList += tags.reduce((acc, tag) => `${acc}||${tag.latitude},${tag.longitude}|flag-${tag.name}`, "");
+        if(tags.length > 0) {
+            console.log(tags);
+            tagList += tags.reduce((acc, tag) => `${acc}||${tag.latitude},${tag.longitude}|flag-${tag.name}`, "");
+            //tagList += tags.reduce((acc, tag) => `${acc}||${tag.name},${tag.latitude},${tag.longitude}`, "")
 
+        }
+        
         const mapQuestUrl = `https://www.mapquestapi.com/staticmap/v5/map?key=${this.#apiKey}&size=600,400&zoom=${zoom}&center=${latitude},${longitude}&locations=${tagList}`;
         console.log("Generated MapQuest URL:", mapQuestUrl);
 

@@ -11,6 +11,7 @@
     <title>GeoTagApp</title>
     <link rel="stylesheet" href="./stylesheets/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./../public/favicon.ico">
 </head>
 
 <body>
@@ -100,7 +101,7 @@
                 </div>
 
                 <div class="discovery__map col-9">
-                    <img src="./images/mapview.jpg" alt="a map with locations" id="mapView" data-tags="<% JSON.stringify(taglist) %>" />
+                    <img src="./images/mapview.jpg" alt="a map with locations" id="mapView" data-tags="<%= JSON.stringify(taglist) %>" />
                     <p>Result map</p>
                 </div>
             </div>
