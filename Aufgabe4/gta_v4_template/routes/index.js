@@ -26,6 +26,7 @@ const GeoTag = require('../models/geotag');
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
+var store = new GeoTagStore();
 
 // App routes (A3)
 
@@ -38,9 +39,79 @@ const GeoTagStore = require('../models/geotag-store');
  * As response, the ejs-template is rendered without geotag objects.
  */
 
-router.get('/', (req, res) => {
+/**router.get('/', (req, res) => {
   res.render('index', { taglist: [] })
+});*/
+
+router.get('/', (req, res) => {
+  res.render('index', {currentLatitude: null, currentLongitude:null, taglist: store.GeoTags })
 });
+
+//Routes from A3
+
+router.post("/tagging", (req, res) => {
+  let latitude = req.body.latitude;
+  let longitude = req.body.longitude;
+  let name = req.body.name;
+  let hashTag = req.body.hashtag;
+  console.log(req.body);
+
+  let geoTag = new GeoTag(name, hashTag,latitude, longitude);
+  let nearbyGeoTags = store.getNearbyGeoTags(geoTag);
+
+  nearbyGeoTags.push(geoTag);
+  console.log(store.geoTags);
+  store.addGeoTag(geoTag);
+  console.log(store.geoTags);
+  res.render("index", {
+    taglist: nearbyGeoTags,
+    currentLatitude: req.body.latitude,
+    currentLongitude: req.body.longitude,
+    mapTaglist: JSON.stringify(store.geoTags),
+    hashtag: hashTag
+  });
+});
+
+/**
+ * Route '/discovery' for HTTP 'POST' requests.
+ * (http://expressjs.com/de/4x/api.html#app.post.method)
+ *
+ * Requests cary the fields of the discovery form in the body.
+ * This includes coordinates and an optional search term.
+ * (http://expressjs.com/de/4x/api.html#req.body)
+ *
+ * As response, the ejs-template is rendered with geotag objects.
+ * All result objects are located in the proximity of the given coordinates.
+ * If a search term is given, the results are further filtered to contain 
+ * the term as a part of their names or hashtags. 
+ * To this end, "GeoTagStore" provides methods to search geotags 
+ * by radius and keyword.
+ */
+
+router.post("/discovery", (req, res) => {
+  let latitude = req.body.latitude;
+  let longitude = req.body.longitude;
+  let name = req.body.name;
+  let hashTag = req.body.hashtag;
+  console.log(req.body);
+
+  let geoTag = new GeoTag(name, hashTag,latitude, longitude);
+  let search = req.body.searchterm;
+  let nearbyGeoTags = store.searchNearbyGeoTags(geoTag, search);
+  
+  console.log(nearbyGeoTags); //Ausgabe der nahen Tags
+
+  res.render("index", {
+    taglist: nearbyGeoTags,
+    currentLatitude: req.body.latitude,
+    currentLongitude: req.body.longitude,
+    mapTaglist: JSON.stringify(store.geoTags),
+    hashtag: req.body.hashtag,
+  });
+});
+
+
+
 
 // API routes (A4)
 

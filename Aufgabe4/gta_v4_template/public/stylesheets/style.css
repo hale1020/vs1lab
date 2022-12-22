@@ -1,0 +1,353 @@
+/*
+  File origin: VS1LAB A1b  
+
+  CSS style is BEM. Classes used for CSS, IDs for JavaScript querying (future use).
+  CSS variables used for clarity and themability (e.g. through SSR). 
+  Inherited box sizing used for ease of including 3rd party content-box components.
+*/
+
+/* Global styling */
+
+html {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+
+  /* This approach prevents issues with 3rd party content-box components */
+  box-sizing: inherit;
+}
+
+
+/* Variables (example: see declaration for "a" below) */
+
+:root {
+  --link-color: #00B7FF;
+  --background-color: #efefef;
+  --border-color: #cdcdcd;
+  --gray-color: #666;
+}
+
+
+/* HTML element styles */
+
+body {
+  font: 100% "Lucida Grande", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--link-color);
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.col-1 {
+  width: calc(8.33% - 1rem);
+}
+
+.col-2 {
+  width: calc(16.66% - 1rem);
+}
+
+.col-3 {
+  width: calc(25% - 1rem);
+}
+
+.col-4 {
+  width: calc(33.33% - 1rem);
+}
+
+.col-5 {
+  width: calc(41.66% - 1rem);
+}
+
+.col-6 {
+  width: calc(50% - 1rem);
+}
+
+.col-7 {
+  width: calc(58.33% - 1rem);
+}
+
+.col-8 {
+  width: calc(66.66% - 1rem);
+}
+
+.col-9 {
+  width: calc(75% - 1rem);
+}
+
+.col-10 {
+  width: calc(83.33% - 1rem);
+}
+
+.col-11 {
+  width: calc(91.66% - 1rem);
+}
+
+.col-12 {
+  width: 100%;
+}
+
+header {
+  display: flex;
+  background-color: lightgray;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  border-color: darkgray;
+  border: 1px solid;
+}
+
+.header__image {
+  align-self: flex-start;
+  order: 1;
+  margin: 5%;
+}
+
+.header__title {
+  align-self: center;
+  size: 200%;
+  order: 2;
+  margin: 5%;
+  justify-self: center;
+}
+
+.header__navigation {
+  align-self: flex-end;
+  order: 3;
+  margin: 5%;
+}
+
+main {
+  display: flex;
+  background-color: white;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.main fieldset {
+  border: 2px solid lightgray;
+  margin-bottom: 5%;
+  padding: 3%;
+}
+
+.main__tagging input {
+  display: flex;
+  width:80%;
+  margin-bottom: 3%;
+  padding: 2%;
+  justify-content: space-around;
+  justify-content: space-between;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  justify-items: center;
+  justify-self: stretch;
+}
+
+#submit-tagging{
+  margin-top: 6%;
+}
+
+.main__tagging {
+  display: flex;
+  order: 1;
+  justify-self: flex-start;
+  position: relative;
+  flex-direction: column;
+}
+
+main section {
+  margin: 2%;
+
+}
+
+.name {
+  justify-self: center;
+  margin: 3%;
+}
+
+.main__discovery input {
+  display: flex;
+  margin-bottom: 5%;
+  padding: 4%;
+  width: 80%;
+  align-items: center;
+}
+
+#submit-discovery {
+  margin-top: 2%;
+  margin-bottom: 4%;
+  padding: 2%;
+}
+
+#discovery_section {
+  padding-right: 5%;
+  order: 2;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  justify-self: stretch;
+}
+
+#discoveryFilterForm{
+  padding-right: 5%;
+  width: 75%;
+  height:75%;
+}
+
+.discovery__title {
+  margin-bottom: 2%;
+}
+
+.tagging__title {
+  margin-bottom: 3%;
+}
+
+#searchterm {
+  order: 1;
+  padding: 2%;
+
+}
+
+#submit-discovery {
+  order: 2;
+}
+
+.discovery__results li {
+  width: 90%;
+  list-style-type: none;
+  border: 2px solid rgb(230, 230, 230);
+  padding: 8%;
+  margin: 0% 2%;
+  color: #00B7FF;
+  background-color: lightgray;
+  display: flex;
+}
+
+.footer {
+  padding: 0%;
+  display: flex;
+  background-color: lightgray;
+  justify-items: space-around;
+  flex-direction: row;
+  border: 1px solid darkgray;
+  height: 5%;
+  align-items: center;
+  clear: right;
+}
+
+span {
+  margin: 5%;
+  justify-self: center;
+  font-weight: bold;
+  padding-top: 3%;
+}
+
+#submit-discovery {
+  display: flex;
+  text-align: center;
+}
+
+
+@media screen and (max-width: 850px) {
+  header {
+    flex-direction: column;
+    margin-bottom: 1%;
+    padding-top: 2%;
+    padding-bottom: 1%;
+    height: 2%;
+    border: 1px solid;
+  }
+
+  .header__image {
+    align-self: center;
+    order: 1;
+    margin: 2%;
+    padding-bottom: 0%;
+    size: 100%;
+  }
+
+  .header__title {
+    align-self: center;
+    size: 200%;
+    order: 2;
+    margin: 2%;
+    justify-self: center;
+  }
+
+  .header__navigation {
+    align-self: center;
+    order: 3;
+    margin: 2%;
+  }
+
+  main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+  }
+
+  .row {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .col-7 {
+    margin-left: 50px;
+  }
+
+  #tagging_section{
+    width: 100%;
+    padding-right: 4% ;
+    margin: 2%;
+    margin-bottom: 0%;
+  }
+
+  #tag-form{
+    width: 100%;
+  }
+
+  #discovery_section{
+    width: 100%;
+    padding-right: 4%;
+  }
+
+  #discoveryFilterForm {
+    width: 100%;
+  }
+
+  #discoveryResults{
+    margin-bottom: 5%;
+    width: 100%;
+  }
+
+  ul li {
+    width: 100%;
+    list-style-type: none;
+    padding-right: 0% ;
+    margin-bottom: 15% ;
+    color: #00B7FF;
+    display: flex;
+    background-color: lightgray;
+    border: 2px solid rgb(230, 230, 230);
+  }
+
+  .discovery__results li{
+    width: 100%;
+  }
+}
