@@ -140,7 +140,7 @@ router.get('/api/geotags', (req, res) =>{
     tags.push(nearbyGeoTags);
 
   } else if(searchterm !== undefined){
-    nearbyGeoTags = store.searchNearbyGeoTags(searchterm);
+    nearbyGeoTags = store.getTagsWithSearchterm(searchterm); 
     tags.push(nearbyGeoTags);
   }
   let filtered ={
@@ -189,7 +189,7 @@ router.post("/api/geotags", (req, res) => {
  */
 
 router.get("/api/geotags/:id", (req, res) => {
-    res.status(200).json(JSON.stringify(store.searchTagByID(req.params.id)));
+    res.status(200).json(JSON.stringify(store.searchId(req.params.id)));
 });
 
 

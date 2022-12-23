@@ -82,6 +82,26 @@ class InMemoryGeoTagStore{
 
     }
 
+    searchId(id) {
+        let ret = [];
+        this.#alltags.find((tag) => {
+            if (tag.name == id) {
+                ret = tag;
+            }
+        });
+        return ret;
+    }
+
+    getTagsWithSearchterm(searchterm){
+        let ret = [];
+        for (let i = 0; i < this.#alltags.length; i++) {
+            if (this.#alltags[i].name.includes(searchterm) || this.#alltags[i].hashtag.includes(searchterm)) {
+                ret += this.#alltags[i];
+            }
+        }
+        return ret; 
+    }
+
 
     populate() {
         GeoTagExamples.tagList.forEach((tag) => {
