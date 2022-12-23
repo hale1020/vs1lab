@@ -127,7 +127,29 @@ router.post("/discovery", (req, res) => {
  * If 'latitude' and 'longitude' are available, it will be further filtered based on radius.
  */
 
-// TODO: ... your code here ...
+router.get('/api/geotags', (req, res) =>{
+  let latitude = req.query.latitude;
+  let longitude = req.query.longitude;
+
+  let tags = [];
+
+  let searchterm = req.query.searchterm;
+  let nearbyGeoTags = store.geoTags;
+  if(latitude !== undefined && longitude !== undefined && searchterm !== undefined){
+    nearbyGeoTags = store.getNearbyGeoTags(latitude, longitude);
+    tags.push(nearbyGeoTags);
+
+  } else if(searchterm !== undefined){
+    nearbyGeoTags = store.searchNearbyGeoTags(searchterm);
+    tags.push(nearbyGeoTags);
+  }
+  let filtered ={
+    tags: tags,
+    geTagsLength: nearbyGeoTags.length
+  }
+  res.status(200).json(JSON.stringify(filtered));
+  
+});
 
 
 /**
@@ -141,7 +163,19 @@ router.post("/discovery", (req, res) => {
  * The new resource is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
+router.post("/api/geotags", (req, res) => {
+  let latitude = req.body.latitude
+  let longitude = req.body.longitude
+  let name = req.body.name
+  let hashtag = req.body.hashtag
+  let tag = new GeoTag(latitude, longitude, name, hashtag);
+
+  store.addGeoTag(tag);
+  
+  res.append('URL', "api/geotags/" + name);
+
+  res.status(200).json(JSON.stringify(store.geoTags));
+});
 
 
 /**
@@ -154,7 +188,9 @@ router.post("/discovery", (req, res) => {
  * The requested tag is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
+router.get("/api/geotags/:id", (req, res) => {
+    res.status(200).json(JSON.stringify(store.searchTagByID(req.params.id)));
+});
 
 
 /**
@@ -171,7 +207,16 @@ router.post("/discovery", (req, res) => {
  * The updated resource is rendered as JSON in the response. 
  */
 
-// TODO: ... your code here ...
+router.put("/api/geotags/:id", (req, res) => {
+  let latitude = req.body.latitude;
+  let longitude = req.body.longitude;
+  let hashtag = req.body.hashtag;
+  let name = req.body.name;
+  let id = req.params.id;
+  let geoTag = new GeoTag(latitude, longitude, name, hashtag);
+  store.changeGeoTag(geoTag, id)
+  res.status(200).json(JSON.stringify(geoTag));
+});
 
 
 /**
@@ -185,6 +230,11 @@ router.post("/discovery", (req, res) => {
  * The deleted resource is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
+router.delete("/api/geotags/:id", (req, res) => {
+  let id = req.params.id;
+  let geoTag = new GeoTag(id);
+  let deletedResource = store.removeGeoTag(geoTag);
+  res.status(200).json(JSON.stringify(deletedResource));
+});
 
 module.exports = router;
