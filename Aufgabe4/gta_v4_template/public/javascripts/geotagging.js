@@ -1,12 +1,8 @@
-// File origin: VS1LAB A2
 
-/* eslint-disable no-unused-vars */
+// Nicht sicher ob richtig
+// GeoTagStore = require('../../models/geotag-store');
+// var store = new GeoTagStore();
 
-// This script is executed when the browser loads index.html.
-
-// "console.log" writes to the browser's console. 
-// The console window must be opened explicitly in the browser.
-// Try to find this output in the browser...
 
 async function updateLocation(callback) {
     let helper = new LocationHelper();
@@ -72,15 +68,37 @@ document.addEventListener('DOMContentLoaded',
 
 const discoveryButton = document.getElementById('submit-discovery');
 
-discoveryButton.addEventListener('click',function(event) {
-    console.log("YOU CLICKED IT");
+   discoveryButton.addEventListener('click',function(event) {
     event.preventDefault();
+     console.log("YOU CLICKED IT");
+     
+     let newSearchterm= document.getElementById("searchterm").value;
+     
+
+     console.log();
+     
+     store.getTagsWithSearchterm(searchterm);
+
+     async function getGeotag() {
+        var response = await fetch("http://localhost:3000/api/geotags" + id);
+        return await response.json();}
+       
+        getGeotag(newSearchterm).then(msgAlert);
+     
+      
   });
 
 
-  const taggingButton = document.getElementById('submit-tagging');
+const taggingButton = document.getElementById('submit-tagging');
 
-taggingButton.addEventListener('click',function(event) {
-    console.log("YOU CLICKED IT");
-    event.preventDefault();
+   taggingButton.addEventListener('click',function(event) {
+      // console.log("YOU CLICKED IT");
+
+      const data = { 
+         
+
+     };
+      event.preventDefault();
   });
+
+  
