@@ -82,8 +82,8 @@ class InMemoryGeoTagStore{
 
     }
 
-    searchId(id) {
-        let ret = [];
+    searchTagId(id) {
+        let ret = null;
         this.#alltags.find((tag) => {
             if (tag.name == id) {
                 ret = tag;
