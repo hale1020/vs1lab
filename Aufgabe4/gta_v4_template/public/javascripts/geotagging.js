@@ -67,3 +67,20 @@ document.addEventListener('DOMContentLoaded',
     console.log('DOM loaded');
     updateLocation();
 });
+
+
+
+const discoveryButton = document.getElementById('submit-discovery');
+
+discoveryButton.addEventListener('click',function(event) {
+    console.log("YOU CLICKED IT");
+    event.preventDefault();
+  });
+
+
+  const taggingButton = document.getElementById('submit-tagging');
+
+taggingButton.addEventListener('click',function(event) {
+    console.log("YOU CLICKED IT");
+    event.preventDefault();
+  });
