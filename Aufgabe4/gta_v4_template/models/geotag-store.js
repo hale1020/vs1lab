@@ -43,9 +43,14 @@ class InMemoryGeoTagStore{
         return this.#alltags;
     }
 
-    removeGeoTag(GeoTag){
-        this.#alltags=this.#alltags.filter(element => {
-            if (element.name!=GeoTag.name){return true;}}); //? return element???
+    removeGeoTag(geoTag){
+        for (let i = 0; i < this.#alltags.length; i++) {
+            if (this.#alltags[i].name === geoTag.name) {
+                let removedGeoTag = this.#alltags[i];
+                this.#alltags.splice(i, 1);
+                return removedGeoTag;
+            }
+        }
         }
 
     getNearbyGeoTags(location){
