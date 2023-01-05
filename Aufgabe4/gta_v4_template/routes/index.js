@@ -128,27 +128,70 @@ router.post("/discovery", (req, res) => {
  */
 
 router.get('/api/geotags', (req, res) =>{
-  let latitude = req.query.latitude;
-  let longitude = req.query.longitude;
+  let latitudeQuery = req.query.latitude;
+  let longitudeQuery = req.query.longitude;
+  let searchtermQuery = req.query.searchterm;
 
-  let tags = [];
+  let offset = parseInt(req.query.offset);
+  let limit = parseInt(req.query.limit);
 
-  let searchterm = req.query.searchterm;
-  let nearbyGeoTags = store.geoTags;
-  if(latitude !== undefined && longitude !== undefined && searchterm !== undefined){
-    nearbyGeoTags = store.getNearbyGeoTags(latitude, longitude);
-    tags.push(nearbyGeoTags);
-
-  } else if(searchterm !== undefined){
-    nearbyGeoTags = store.getTagsWithSearchterm(searchterm); 
-    tags.push(nearbyGeoTags);
-  }
-  let filtered ={
-    tags: tags,
-    geTagsLength: nearbyGeoTags.length
-  }
-  res.status(200).json(JSON.stringify(filtered));
   
+  /**
+   * location contains latitude and longitude, which is sufficient for a use in geotag-store.getNearbyGeoTags()
+   * @type {{latitude: (*|Document.latitude|number), longitude: (*|Document.longitude|number)}}
+   */
+
+
+  let filteredTags = [];
+
+  let location = {
+    latitude: latitudeQuery,
+    longitude: longitudeQuery
+}
+
+  let nearbyGeoTags = store.geoTags; //Value
+  console.log(nearbyGeoTags);
+
+  //Test
+  console.log(latitudeQuery, longitudeQuery, searchtermQuery);
+
+  if ((latitudeQuery !== undefined && longitudeQuery !== undefined && searchtermQuery !== undefined) || (latitudeQuery !="" && longitudeQuery !== "" && searchtermQuery !== "")){
+    nearbyGeoTags = store.getNearbyGeoTags(location);
+
+    nearbyGeoTags.forEach(function (tag) {
+      if (tag.name.includes(discoveryQuery) || tag.hashtag.includes(discoveryQuery)) {
+          filteredTags.push(tag);
+      }}
+    );
+    nearbyGeoTags = filteredTags;
+  }
+
+
+  else if(discoveryQuery !== undefined && discoveryQuery !==""){
+      nearbyGeoTags = store.getTagsWithSearchterm(discoveryQuery); 
+      //filteredTags.push(nearbyGeoTags);
+    }
+
+  else if(latitudeQuery !== undefined && latitudeQuery !== "" && longitudeQuery !== undefined && longitudeQuery !== "") {
+    nearbyGeoTags = store.getNearbyGeoTags(location);
+    }
+
+  let filtered = nearbyGeoTags;
+
+//???
+  if (offset !== undefined && limit !== undefined) {
+    filteredTags = [];
+    for (let i = offset; i < (offset + limit) && (i < nearbyGeoTags.length); i++) {
+        filteredTags.push(nearbyGeoTags[i]);
+    }
+    }
+
+  let result ={
+    tags: filtered,
+    tagCount: nearbyGeoTags.length
+  }
+
+  res.status(200).json(JSON.stringify(result));
 });
 
 
@@ -233,9 +276,11 @@ router.put("/api/geotags/:id", (req, res) => {
 
 router.delete("/api/geotags/:id", (req, res) => {
   let id = req.params.id;
-  let geoTag = new GeoTag(id);
+  let geoTag = new GeoTag("empty", "empty", id, "empty");
   let deletedResource = store.removeGeoTag(geoTag);
   res.status(200).json(JSON.stringify(deletedResource));
 });
+
+//Bonusaufgabe??
 
 module.exports = router;

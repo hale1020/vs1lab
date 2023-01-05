@@ -70,6 +70,8 @@ class InMemoryGeoTagStore{
         return entries;
     }
 
+
+    //Funktion benötigt???
     searchNearbyGeoTags(location, keyword){
 
         let ret = [];
@@ -99,11 +101,29 @@ class InMemoryGeoTagStore{
 
     getTagsWithSearchterm(searchterm){
         let ret = [];
-        for (let i = 0; i < this.#alltags.length; i++) {
-            if (this.#alltags[i].name.includes(searchterm) || this.#alltags[i].hashtag.includes(searchterm)) {
-                ret += this.#alltags[i];
+        if (searchterm.charAt(0) === '#'){
+            searchterm= searchterm.slice(1); 
+            this.#alltags.find((geoTag) => {
+                let hashtag = geoTag.hashtag.slice(1); //2. slice nötig???
+                if (hashtag.includes(searchterm)) {
+                    this.getNearbyGeoTags(geoTag).find((tag) => {
+                        if (!ret.includes(tag)) ret.push(tag);
+                    });
+                }
+        })
+        }
+        else{
+            for (let i = 0; i < this.#alltags.length; i++) {
+                if (this.#alltags[i].name.includes(searchterm)) {
+                    if (!ret.includes(this.#alltags[i])){
+                        ret.push(this.#alltags[i]);
+                    }
+                    
+                }
             }
         }
+
+        
         return ret; 
     }
 
@@ -116,6 +136,14 @@ class InMemoryGeoTagStore{
             this.addGeoTag(newGeoTag);
         });
               };
+
+    changeGeoTag(newGeoTag,id) {
+        let oldGeoTag= this.searchTagId(id);
+        if (oldGeoTag !== null){
+            this.removeGeoTag(oldGeoTag);
+            this.addGeoTag(newGeoTag);
+        }
+    }
 
 }
 
