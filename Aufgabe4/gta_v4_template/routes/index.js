@@ -187,7 +187,7 @@ router.get('/api/geotags', (req, res) =>{
     }
 
   let result ={
-    tags: filtered,
+    tagFiltered: filtered,
     tagCount: nearbyGeoTags.length
   }
 
