@@ -124,7 +124,7 @@ discoveryButton.addEventListener('click',function(event) {
        
         getGeotag(newSearchterm).then(msgAlert);*/
      
-  });
+  };
 
 
 const taggingButton = document.getElementById('submit-tagging');
