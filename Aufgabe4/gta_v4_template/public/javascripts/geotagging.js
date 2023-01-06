@@ -1,7 +1,7 @@
 
 // Nicht sicher ob richtig
-// GeoTagStore = require('../../models/geotag-store');
-// var store = new GeoTagStore();
+ GeoTagStore = require('../models/geotag-store');
+ var store = new GeoTagStore();
 
 
 async function updateLocation(callback) {
@@ -77,7 +77,7 @@ const discoveryButton = document.getElementById('submit-discovery');
 
      console.log();
      
-     store.getTagsWithSearchterm(searchterm);
+     store.getTagsWithSearchterm(newSearchterm);
 
      async function getGeotag() {
         var response = await fetch("http://localhost:3000/api/geotags" + id);
