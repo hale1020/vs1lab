@@ -53,10 +53,10 @@ router.post("/tagging", (req, res) => {
   let latitude = req.body.latitude;
   let longitude = req.body.longitude;
   let name = req.body.name;
-  let hashTag = req.body.hashtag;
-  //console.log(req.body);
+  let hashtag = req.body.hashtag;
+  console.log(req.body);
 
-  let geoTag = new GeoTag(name, hashTag,latitude, longitude);
+  let geoTag = new GeoTag(name, hashtag,latitude, longitude);
   let nearbyGeoTags = store.getNearbyGeoTags(geoTag);
 
   nearbyGeoTags.push(geoTag);
@@ -92,10 +92,10 @@ router.post("/discovery", (req, res) => {
   let latitude = req.body.latitude;
   let longitude = req.body.longitude;
   let name = req.body.name;
-  let hashTag = req.body.hashtag;
+  let hashtag = req.body.hashtag;
   console.log(req.body);
 
-  let geoTag = new GeoTag(name, hashTag,latitude, longitude);
+  let geoTag = new GeoTag(name, hashtag, latitude, longitude);
   let search = req.body.searchterm;
   let nearbyGeoTags = store.searchNearbyGeoTags(geoTag, search);
   
@@ -211,7 +211,7 @@ router.post("/api/geotags", (req, res) => {
   let longitude = req.body.longitude
   let name = req.body.name
   let hashtag = req.body.hashtag
-  let tag = new GeoTag( name, hashtag,latitude, longitude);
+  let tag = new GeoTag(name, hashtag, latitude, longitude);
 
   store.addGeoTag(tag);
   
@@ -257,7 +257,7 @@ router.put("/api/geotags/:id", (req, res) => {
   let hashtag = req.body.hashtag;
   let name = req.body.name;
   let id = req.params.id;
-  let geoTag = new GeoTag( name, hashtag,latitude, longitude);
+  let geoTag = new GeoTag(name, hashtag, latitude, longitude);
   store.changeGeoTag(geoTag, id)
   res.status(200).json(JSON.stringify(geoTag));
 });

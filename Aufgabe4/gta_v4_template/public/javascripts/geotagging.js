@@ -1,5 +1,7 @@
 
-
+// Nicht sicher ob richtig
+//const GeoTagStore = require('../../models/geotag-store');
+//var store = new GeoTagStore();
 
 
 async function updateLocation(callback) {
@@ -83,7 +85,27 @@ function updateList(geotags) {
             list.appendChild(element);
         })
     }
-      return geotags;
+    return geotags;
+
+
+   }
+
+//fetch tagging
+async function postAdd(geotag) {
+
+
+    let response = await fetch("http://localhost:3000/api/geotags", {        
+        method: "POST", headers: {"Content-Type": "application/json"},                  
+        body: JSON.stringify(geotag),
+    });
+
+    let emptySearch = await fetch("http://localhost:3000/api/geotags?&offset=" + "&searchterm=" + "" +
+        "&limit=" + elementsPerPage + "&latitude=" + "" + "&longitude=" + "", {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+    });
+
+    return await emptySearch.json();
 }
 
 
@@ -124,7 +146,8 @@ const discoveryButton = document.getElementById('submit-discovery');
 
    discoveryButton.addEventListener('click',function(event) {
     event.preventDefault();
-     console.log("YOU CLICKED IT");
+
+    console.log("DiscoveryButton clicked");
      
      let newSearchterm= document.getElementById("searchterm").value;
 
@@ -134,27 +157,28 @@ const discoveryButton = document.getElementById('submit-discovery');
 
     getTagList(newSearchterm).then(updateMap).then(updateList)
      
-
-         
   });
 
 
 const taggingButton = document.getElementById('submit-tagging');
 
-   taggingButton.addEventListener('click',function(event) {
-      event.preventDefault();
+taggingButton.addEventListener('click',function(event) {
+    event.preventDefault();
 
-      let geotag = {
+    console.log("TaggingButton clicked");
+    
+    let newGeotag = {
         name: document.getElementById("name").value,
+        hashtag: document.getElementById("hashtag").value,
         latitude: document.getElementById("latitude").value,
         longitude: document.getElementById("longitude").value,
-        hashtag: document.getElementById("hashtag").value
     }
-
-    postAdd(geotag).then(updateMap).then(updateList);
+    postAdd(newGeotag).then(updateMap);
     document.getElementById("name").value = "";
     document.getElementById("hashtag").value = "";
-    document.getElementById("submit-tagging").value = "";
-  },true);
+    document.getElementById("searchterm").value = ""; //unnötig???
+  }, true);
+
+     
 
   
