@@ -1,7 +1,5 @@
 
-// Nicht sicher ob richtig
- GeoTagStore = require('../models/geotag-store');
- var store = new GeoTagStore();
+
 
 
 async function updateLocation(callback) {
@@ -25,6 +23,7 @@ async function updateLocation(callback) {
     var map = document.getElementById("mapView")
     var map_view = document.getElementById("mapView");
     let taglist_json_string = map_view.getAttribute("data-tags");
+    
     let taglist_json = JSON.parse(taglist_json_string);
 
 
@@ -56,13 +55,68 @@ async function updateLocation(callback) {
 }  
 
 
-//Update Location????
+async function updateMap(geotags) {
+    return new Promise((resolve, reject) => {
+        let manager = new MapManager("1fuMAYDadogIhChVgO3HQp5oc01EVfDb");
+        let latitude = parseFloat(document.getElementById("latitude2").getAttribute("value"));
+        let longitude = parseFloat(document.getElementById("longitude2").getAttribute("value"));
+        let mapUrl = manager.getMapUrl(latitude, longitude, geotags);
+        document.getElementById("mapView").setAttribute("src", mapUrl);
+
+        resolve(geotags);
+    })
+}
+
+
+function updateList(geotags) {
+    console.log("inupdatelist: ", geotags, "\n");
+    let parsedResponse = geotags;
+    let taglist = parsedResponse;
+    let totalResults = parsedResponse;
+    
+    if (taglist !== undefined) {
+        let list = document.getElementById("discoveryResults");
+        list.innerHTML = "";
+        taglist.forEach(function (tag) {
+            let element = document.createElement("li");
+            element.innerHTML = tag.name + "(" + tag.latitude + "," + tag.longitude + ")" + tag.hashtag;
+            list.appendChild(element);
+        })
+    }
+      return geotags;
+}
+
+
+async function getTagList(newSearchterm) {
+    let response = await fetch("http://localhost:3000/api/geotags?" + "&searchterm=" + newSearchterm );         //Get mit HTTP Query Parameter
+        console.log("GetTaglistResponse ", response, "\n");
+         return await response.json();
+    
+}
+
+async function postAdd(geotag) {
+
+
+    let response = await fetch("http://localhost:3000/api/geotags", {          //Post mit HTTP
+        method: "POST", headers: {"Content-Type": "application/json"},                      //MimeType
+        body: JSON.stringify(geotag),
+    });
+
+    //let emptySearch = await fetch("http://localhost:3000/api/geotags?" +  "&searchterm=" + "&latitude=" + "" + "&longitude=" + "", {
+    //    method: "GET",
+   //     headers: {"Content-Type": "application/json"},
+  //  });
+
+  //  return await emptySearch.json();
+}
 
 document.addEventListener('DOMContentLoaded', 
     (event) => {
     console.log('DOM loaded');
     updateLocation();
-});
+    
+    
+    });
 
 
 
@@ -73,32 +127,34 @@ const discoveryButton = document.getElementById('submit-discovery');
      console.log("YOU CLICKED IT");
      
      let newSearchterm= document.getElementById("searchterm").value;
+
+     if (newSearchterm.charAt(0) === '#') {
+        newSearchterm = newSearchterm.slice(1,newSearchterm.length);
+    }
+
+    getTagList(newSearchterm).then(updateMap).then(updateList)
      
 
-     console.log();
-     
-     store.getTagsWithSearchterm(newSearchterm);
-
-     async function getGeotag() {
-        var response = await fetch("http://localhost:3000/api/geotags" + id);
-        return await response.json();}
-       
-        getGeotag(newSearchterm).then(msgAlert);
-     
-      
+         
   });
 
 
 const taggingButton = document.getElementById('submit-tagging');
 
    taggingButton.addEventListener('click',function(event) {
-      // console.log("YOU CLICKED IT");
-
-      const data = { 
-         
-
-     };
       event.preventDefault();
-  });
+
+      let geotag = {
+        name: document.getElementById("name").value,
+        latitude: document.getElementById("latitude").value,
+        longitude: document.getElementById("longitude").value,
+        hashtag: document.getElementById("hashtag").value
+    }
+
+    postAdd(geotag).then(updateMap).then(updateList);
+    document.getElementById("name").value = "";
+    document.getElementById("hashtag").value = "";
+    document.getElementById("submit-tagging").value = "";
+  },true);
 
   

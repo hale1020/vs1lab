@@ -54,7 +54,7 @@ router.post("/tagging", (req, res) => {
   let longitude = req.body.longitude;
   let name = req.body.name;
   let hashTag = req.body.hashtag;
-  console.log(req.body);
+  //console.log(req.body);
 
   let geoTag = new GeoTag(name, hashTag,latitude, longitude);
   let nearbyGeoTags = store.getNearbyGeoTags(geoTag);
@@ -65,8 +65,8 @@ router.post("/tagging", (req, res) => {
   console.log(store.geoTags);
   res.render("index", {
     taglist: nearbyGeoTags,
-    currentLatitude: req.body.latitude,
-    currentLongitude: req.body.longitude,
+    currentLatitude: latitude,
+    currentLongitude: longitude,
     mapTaglist: JSON.stringify(store.geoTags),
     hashtag: hashTag
   });
@@ -106,7 +106,7 @@ router.post("/discovery", (req, res) => {
     currentLatitude: req.body.latitude,
     currentLongitude: req.body.longitude,
     mapTaglist: JSON.stringify(store.geoTags),
-    hashtag: req.body.hashtag,
+    hashTag: req.body.hashtag,
   });
 });
 
@@ -130,7 +130,7 @@ router.post("/discovery", (req, res) => {
 router.get('/api/geotags', (req, res) =>{
   let latitudeQuery = req.query.latitude;
   let longitudeQuery = req.query.longitude;
-  let searchtermQuery = req.query.searchterm;
+  let discoveryQuery = req.query.searchterm;
 
   let offset = parseInt(req.query.offset);
   let limit = parseInt(req.query.limit);
@@ -142,28 +142,28 @@ router.get('/api/geotags', (req, res) =>{
    */
 
 
-  let filteredTags = [];
+  let filterArray = [];
 
   let location = {
     latitude: latitudeQuery,
     longitude: longitudeQuery
 }
 
-  let nearbyGeoTags = store.geoTags; //Value
+  let nearbyGeoTags = store.GeoTags; //Value
   console.log(nearbyGeoTags);
 
   //Test
   console.log(latitudeQuery, longitudeQuery, searchtermQuery);
 
-  if ((latitudeQuery !== undefined && longitudeQuery !== undefined && searchtermQuery !== undefined) || (latitudeQuery !="" && longitudeQuery !== "" && searchtermQuery !== "")){
+  if ((latitudeQuery !== undefined && longitudeQuery !== undefined && discoveryQuery !== undefined) || (latitudeQuery !="" && longitudeQuery !== "" && discoveryQuery !== "")){
     nearbyGeoTags = store.getNearbyGeoTags(location);
 
     nearbyGeoTags.forEach(function (tag) {
       if (tag.name.includes(discoveryQuery) || tag.hashtag.includes(discoveryQuery)) {
-          filteredTags.push(tag);
+          filterArray.push(tag);
       }}
     );
-    nearbyGeoTags = filteredTags;
+    nearbyGeoTags = filterArray;
   }
 
 
@@ -176,18 +176,18 @@ router.get('/api/geotags', (req, res) =>{
     nearbyGeoTags = store.getNearbyGeoTags(location);
     }
 
-  let filtered = nearbyGeoTags;
+  let filteredTags = nearbyGeoTags;
 
 //???
-  if (offset !== undefined && limit !== undefined) {
-    filteredTags = [];
-    for (let i = offset; i < (offset + limit) && (i < nearbyGeoTags.length); i++) {
-        filteredTags.push(nearbyGeoTags[i]);
-    }
-    }
+  //if (offset !== undefined && limit !== undefined) {
+   // filteredTags = [];
+  //  for (let i = offset; i < (offset + limit) && (i < nearbyGeoTags.length); i++) {
+   //     filteredTags.push(nearbyGeoTags[i]);
+   // }
+   // }
 
   let result ={
-    tags: filtered,
+    filteredTags: filteredTags,
     tagCount: nearbyGeoTags.length
   }
 
@@ -211,13 +211,13 @@ router.post("/api/geotags", (req, res) => {
   let longitude = req.body.longitude
   let name = req.body.name
   let hashtag = req.body.hashtag
-  let tag = new GeoTag(latitude, longitude, name, hashtag);
+  let tag = new GeoTag( name, hashtag,latitude, longitude);
 
   store.addGeoTag(tag);
   
-  res.append('URL', "api/geotags/" + name);
+  res.append('URL', "api/geotags/" + req.body.name);
 
-  res.status(200).json(JSON.stringify(store.geoTags));
+  res.status(200).json(JSON.stringify(store.GeoTags));
 });
 
 
@@ -257,7 +257,7 @@ router.put("/api/geotags/:id", (req, res) => {
   let hashtag = req.body.hashtag;
   let name = req.body.name;
   let id = req.params.id;
-  let geoTag = new GeoTag(latitude, longitude, name, hashtag);
+  let geoTag = new GeoTag( name, hashtag,latitude, longitude);
   store.changeGeoTag(geoTag, id)
   res.status(200).json(JSON.stringify(geoTag));
 });
