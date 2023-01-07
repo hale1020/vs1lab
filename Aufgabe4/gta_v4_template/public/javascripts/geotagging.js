@@ -1,6 +1,6 @@
 
 // Nicht sicher ob richtig
- GeoTagStore = require('../models/geotag-store');
+ GeoTagStore = require('../../models/geotag-store');
  var store = new GeoTagStore();
 
 
@@ -88,7 +88,25 @@ function updateList(tags) {
     //(De-)aktiviere Buttons in Abhängigkeit von Seite
     /*document.getElementById("prevPage").disabled = page <= 1;
     document.getElementById("nextPage").disabled = page === maxPage;
-    return tags;
+    return tags;*/
+}
+
+//fetch tagging
+async function postAdd(geotag) {
+
+
+    let response = await fetch("http://localhost:3000/api/geotags", {        
+        method: "POST", headers: {"Content-Type": "application/json"},                  
+        body: JSON.stringify(geotag),
+    });
+
+    let emptySearch = await fetch("http://localhost:3000/api/geotags?&offset=" + offset + "&searchterm=" + "" +
+        "&limit=" + elementsPerPage + "&latitude=" + "" + "&longitude=" + "", {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+    });
+
+    return await emptySearch.json();
 }
 
 
@@ -105,6 +123,7 @@ const discoveryButton = document.getElementById('submit-discovery');
 
 discoveryButton.addEventListener('click',function(event) {
     event.preventDefault();
+
     console.log("DiscoveryButton clicked");
      
      let newSearchterm= document.getElementById("searchterm").value;
@@ -124,20 +143,27 @@ discoveryButton.addEventListener('click',function(event) {
        
         getGeotag(newSearchterm).then(msgAlert);*/
      
-  };
+  });
 
 
 const taggingButton = document.getElementById('submit-tagging');
 
 taggingButton.addEventListener('click',function(event) {
+    event.preventDefault();
+
     console.log("TaggingButton clicked");
-
-      const data = { 
-         
-
-     };
-      event.preventDefault();
-  });
+    
+    let newGeotag = {
+        name: document.getElementById("name").value,
+        hashtag: document.getElementById("hashtag").value,
+        latitude: document.getElementById("latitude").value,
+        longitude: document.getElementById("longitude").value,
+    }
+    postAdd(newGeotag).then(updateMap);
+    document.getElementById("name").value = "";
+    document.getElementById("hashtag").value = "";
+    document.getElementById("searchterm").value = ""; //unnötig???
+  }, true);
 
 
 document.addEventListener('DOMContentLoaded', (event) => {
