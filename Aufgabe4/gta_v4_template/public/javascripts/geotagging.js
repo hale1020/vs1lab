@@ -1,7 +1,7 @@
 
 // Nicht sicher ob richtig
- GeoTagStore = require('../../models/geotag-store');
- var store = new GeoTagStore();
+//const GeoTagStore = require('../../models/geotag-store');
+//var store = new GeoTagStore();
 
 
 async function updateLocation(callback) {
@@ -100,7 +100,7 @@ async function postAdd(geotag) {
         body: JSON.stringify(geotag),
     });
 
-    let emptySearch = await fetch("http://localhost:3000/api/geotags?&offset=" + offset + "&searchterm=" + "" +
+    let emptySearch = await fetch("http://localhost:3000/api/geotags?&offset=" + "&searchterm=" + "" +
         "&limit=" + elementsPerPage + "&latitude=" + "" + "&longitude=" + "", {
         method: "GET",
         headers: {"Content-Type": "application/json"},
