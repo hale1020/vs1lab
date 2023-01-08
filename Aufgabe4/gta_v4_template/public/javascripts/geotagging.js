@@ -58,7 +58,7 @@ async function updateLocation(callback) {
 
 
 async function updateMap(geotags) {
-    console.log(geotags);
+    //console.log(geotags);
     return new Promise((resolve, reject) => {
         let manager = new MapManager("f64689zc2fhvhu0miIiVlLaUAchTYDWv");
         let latitude = parseFloat(document.getElementById("latitude2").getAttribute("value"));
@@ -73,8 +73,8 @@ async function updateMap(geotags) {
 
 
 function updateList(geotags) {
-    console.log("inupdatelist: " + geotags, "\n");
-    console.log(geotags);
+    //console.log("inupdatelist: " + geotags, "\n");
+    //console.log(geotags);
     let parsedResponse = geotags;
     let taglist = parsedResponse.filterArray;
     let totalResults = parsedResponse;
@@ -101,7 +101,8 @@ async function getTagList(newSearchterm) {
     let response = await fetch("http://localhost:3000/api/geotags?" + "&searchterm=" + newSearchterm + "&longitude="
     + document.getElementById("longitude").getAttribute("value")
     + "&latitude=" + document.getElementById("latitude").getAttribute("value"));
-    console.log("Return response: " + response);
+    //let antwort= await response.clone().json();
+    //console.log("Return response: " + antwort);
          return await response.json();
          
     
@@ -129,9 +130,9 @@ document.addEventListener('DOMContentLoaded',
 
 
 
-const discoveryButton = document.getElementById('submit-discovery');
+const discoveryButton = document.getElementById("submit-discovery");
 
-   discoveryButton.addEventListener('click',function(event) {
+   discoveryButton.addEventListener("click",function(event) {
     event.preventDefault();
 
     console.log("DiscoveryButton clicked");
@@ -141,15 +142,15 @@ const discoveryButton = document.getElementById('submit-discovery');
      if (newSearchterm.charAt(0) === '#') {
         newSearchterm = newSearchterm.slice(1,newSearchterm.length);
     }
-
-    getTagList(newSearchterm).then(updateMap).then(updateList)
+    console.log("newSearchterm:", newSearchterm);
+    getTagList(newSearchterm).then(updateList).then(updateMap);
      
   });
 
 
-const taggingButton = document.getElementById('submit-tagging');
+const taggingButton = document.getElementById("submit-tagging");
 
-taggingButton.addEventListener('click',function(event) {
+taggingButton.addEventListener("click",function(event) {
     event.preventDefault();
 
     console.log("TaggingButton clicked");
@@ -161,7 +162,7 @@ taggingButton.addEventListener('click',function(event) {
         longitude: document.getElementById("longitude").value,
     }
     console.log(newGeotag);
-    postAdd(newGeotag).then(updateMap);
+    postAdd(newGeotag).then(updateList).then(updateMap);
     document.getElementById("name").value = "";
     document.getElementById("hashtag").value = "";
     document.getElementById("searchterm").value = ""; //unnötig???

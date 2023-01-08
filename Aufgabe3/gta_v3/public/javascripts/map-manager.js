@@ -32,7 +32,7 @@ class MapManager {
         
         let tagList = `${latitude},${longitude}|marker-start`;
         if(tags.length > 0) {
-            console.log(tags);
+            console.log("Vor Reduce:",tags);
             tagList += tags.reduce((acc, tag) => `${acc}||${tag.latitude},${tag.longitude}|flag-${tag.name}`, "");
             //tagList += tags.reduce((acc, tag) => `${acc}||${tag.name},${tag.latitude},${tag.longitude}`, "")
 

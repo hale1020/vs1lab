@@ -29,12 +29,12 @@ class MapManager {
             console.log("No API key provided.");
             return "images/mapview.jpg";
         }
-        console.log(tags);
 
         let tagList = `${latitude},${longitude}|marker-start`;
         if(tags.length > 0) {
-            console.log(tags);
-            tagList += tags.reduce((acc, tag) => `${acc}||${tag.latitude},${tag.longitude}|flag-${tag.name}`, "");
+            
+            console.log("Vor Reduce:", tags);
+            tagList +=tags.reduce((acc, tag) => `${acc}||${tag.latitude},${tag.longitude}|flag-${tag.name}`, "");
             //tagList += tags.reduce((acc, tag) => `${acc}||${tag.name},${tag.latitude},${tag.longitude}`, "")
 
         }

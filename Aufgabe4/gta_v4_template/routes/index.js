@@ -181,11 +181,11 @@ router.get('/api/geotags/', (req, res) =>{
    // }
    // }
 
-  let result ={
+  /*let result ={
     filterArray: filterArray,
-      }
+      }*/
 
-  res.status(200).json(JSON.stringify(result));
+  res.status(200).json(JSON.stringify(filterArray));
 });
 
 
