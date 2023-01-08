@@ -18,18 +18,20 @@ class GeoTag {
         this.longitude=long;
     }
     name;
+    hashtag;
     latitude;
     longitude;
-    hashtag;
+    
 
     
 
     toJSON() {
         return {
             name: this.name,
+            hashtag: this.hashtag,
             latitude: this.latitude,
             longitude: this.longitude,
-            hashtag: this.hashtag
+            
         }
     }
     

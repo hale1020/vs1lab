@@ -58,6 +58,7 @@ async function updateLocation(callback) {
 
 
 async function updateMap(geotags) {
+    console.log(geotags);
     return new Promise((resolve, reject) => {
         let manager = new MapManager("f64689zc2fhvhu0miIiVlLaUAchTYDWv");
         let latitude = parseFloat(document.getElementById("latitude2").getAttribute("value"));
@@ -96,10 +97,11 @@ function updateList(geotags) {
 
 
 async function getTagList(newSearchterm) {
-    console.log(newSearchterm);
+    
     let response = await fetch("http://localhost:3000/api/geotags?" + "&searchterm=" + newSearchterm + "&longitude="
     + document.getElementById("longitude").getAttribute("value")
     + "&latitude=" + document.getElementById("latitude").getAttribute("value"));
+    console.log("Return response: " + response);
          return await response.json();
          
     
@@ -158,6 +160,7 @@ taggingButton.addEventListener('click',function(event) {
         latitude: document.getElementById("latitude").value,
         longitude: document.getElementById("longitude").value,
     }
+    console.log(newGeotag);
     postAdd(newGeotag).then(updateMap);
     document.getElementById("name").value = "";
     document.getElementById("hashtag").value = "";

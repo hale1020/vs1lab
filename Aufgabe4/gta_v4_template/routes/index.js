@@ -201,10 +201,10 @@ router.get('/api/geotags/', (req, res) =>{
  */
 
 router.post("/api/geotags", (req, res) => {
-  let latitude = req.body.latitude
-  let longitude = req.body.longitude
-  let name = req.body.name
-  let hashtag = req.body.hashtag
+  let latitude = req.body.latitude;
+  let longitude = req.body.longitude;
+  let name = req.body.name;
+  let hashtag = req.body.hashtag;
   let tag = new GeoTag(name, hashtag, latitude, longitude);
 
   store.addGeoTag(tag);
