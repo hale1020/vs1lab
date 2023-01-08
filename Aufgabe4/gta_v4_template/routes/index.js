@@ -131,8 +131,7 @@ router.get('/api/geotags/', (req, res) =>{
   let latitudeQuery = req.query.latitude;
   let longitudeQuery = req.query.longitude;
   let discoveryQuery = req.query.searchterm;
-
-  console.log("Hi");  
+ 
   /**
    * location contains latitude and longitude, which is sufficient for a use in geotag-store.getNearbyGeoTags()
    * @type {{latitude: (*|Document.latitude|number), longitude: (*|Document.longitude|number)}}
@@ -155,22 +154,17 @@ router.get('/api/geotags/', (req, res) =>{
   if ((latitudeQuery !== undefined && longitudeQuery !== undefined && discoveryQuery !== undefined) || (latitudeQuery !="" && longitudeQuery !== "" && discoveryQuery !== "")){
     nearbyGeoTags = store.getNearbyGeoTags(location);
 
-    nearbyGeoTags.forEach(function (tag) {
+    nearbyGeoTags.forEach((tag) => {
       if (tag.name.includes(discoveryQuery) || tag.hashtag.includes(discoveryQuery)) {
-          filterArray.push(tag);
-      }}
-    );
+        filterArray.push(tag);
+    }
+  });
     nearbyGeoTags = filterArray;
   }
 
 
-  else if(discoveryQuery !== undefined && discoveryQuery !==""){
-      nearbyGeoTags = store.getTagsWithSearchterm(discoveryQuery); 
-      filterArray.push(nearbyGeoTags);
-    }
-
-  else if(latitudeQuery !== undefined && latitudeQuery !== "" && longitudeQuery !== undefined && longitudeQuery !== "") {
-    nearbyGeoTags = store.getNearbyGeoTags(location);
+  else {
+      nearbyGeoTags = store.getTagsWithSearchterm(discoveryQuery);
     }
 
   //???
@@ -184,8 +178,7 @@ router.get('/api/geotags/', (req, res) =>{
   /*let result ={
     filterArray: filterArray,
       }*/
-
-  res.status(200).json(JSON.stringify(filterArray));
+  res.status(200).json(nearbyGeoTags);
 });
 
 
@@ -208,10 +201,10 @@ router.post("/api/geotags", (req, res) => {
   let tag = new GeoTag(name, hashtag, latitude, longitude);
 
   store.addGeoTag(tag);
+  console.log("Added geo tag", tag);
   
   res.append('URL', "api/geotags/" + req.body.name);
-
-  res.status(200).json(JSON.stringify(store.GeoTags));
+  res.status(201).json(store.GeoTags);
 });
 
 

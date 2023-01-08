@@ -71,34 +71,19 @@ async function updateMap(geotags) {
     })
 }
 
-
-function updateList(geotags) {
-    //console.log("inupdatelist: " + geotags, "\n");
-    //console.log(geotags);
-    let parsedResponse = geotags;
-    let taglist = parsedResponse.filterArray;
-    let totalResults = parsedResponse;
-    
-    if (taglist !== undefined) {
-        let list = document.getElementById("discoveryResults");
-        list.innerHTML = "";
-        taglist.foreach(function (tag) {
-            let element = document.createElement("li");
-            element.innerHTML = tag.name + "(" + tag.latitude + "," + tag.longitude + ")" + tag.hashtag;
-            list.appendChild(element);
-        })
+function updateList(tags) {
+    let list = "";
+    for (let tag of tags) {
+        list += "<li> " + tag.name + " ( " + tag.latitude + "," + tag.longitude + " ) " + tag.hashtag + "</li>"
     }
-    return geotags;
-
-
-   }
-
-
+    document.getElementById("discoveryResults").innerHTML = list;
+    return tags;
+}
 
 
 async function getTagList(newSearchterm) {
     
-    let response = await fetch("http://localhost:3000/api/geotags?" + "&searchterm=" + newSearchterm + "&longitude="
+    let response = await fetch("http://localhost:3000/api/geotags?" + "searchterm=" + newSearchterm + "&longitude="
     + document.getElementById("longitude").getAttribute("value")
     + "&latitude=" + document.getElementById("latitude").getAttribute("value"));
     //let antwort= await response.clone().json();
@@ -109,16 +94,13 @@ async function getTagList(newSearchterm) {
 }
 
 async function postAdd(geotag) {
-let element = document.getElementById("name").value;
-
-
-    let response = await fetch("http://localhost:3000/api/geotags", {          //Post mit HTTP
-        method: "POST", headers: {"Content-Type": "application/json"},                      //MimeType
+    let response = await fetch("http://localhost:3000/api/geotags", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(geotag),
-    })
-console.log()
-return await response;
-};
+    });
+    return await response.json();
+}
 
 document.addEventListener('DOMContentLoaded', 
     (event) => {

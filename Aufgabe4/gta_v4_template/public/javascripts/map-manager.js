@@ -30,13 +30,13 @@ class MapManager {
             return "images/mapview.jpg";
         }
 
-        let tagList = `You,${latitude},${longitude}`;
-
+        let tagList = `${latitude},${longitude}|marker-start`;
         if(tags.length > 0) {
-            
-            console.log("Vor Reduce:", tags);
-            //tagList +=tags.reduce((acc, tag) => `${acc}||${tag.latitude},${tag.longitude}|flag-${tag.name}`, "");
-            tagList += Array.from(tags).reduce((acc, tag) => `${acc}|${tag.name},${tag.latitude},${tag.longitude}`, "");
+            console.log("Vor Reduce:",tags);
+            let tagArray = Array.from(tags);
+            console.log("Nach ToArray: ", tagArray);
+            tagList += tagArray.reduce((acc, tag) => `${acc}||${tag.latitude},${tag.longitude}|flag-${tag.name}`, "")
+            //tagList += tags.reduce((acc, tag) => `${acc}||${tag.name},${tag.latitude},${tag.longitude}`, "")
 
         }
 
