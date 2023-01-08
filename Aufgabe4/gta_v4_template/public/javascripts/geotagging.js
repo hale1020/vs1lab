@@ -59,27 +59,29 @@ async function updateLocation(callback) {
 
 async function updateMap(geotags) {
     return new Promise((resolve, reject) => {
-        let manager = new MapManager("1fuMAYDadogIhChVgO3HQp5oc01EVfDb");
+        let manager = new MapManager("f64689zc2fhvhu0miIiVlLaUAchTYDWv");
         let latitude = parseFloat(document.getElementById("latitude2").getAttribute("value"));
         let longitude = parseFloat(document.getElementById("longitude2").getAttribute("value"));
         let mapUrl = manager.getMapUrl(latitude, longitude, geotags);
         document.getElementById("mapView").setAttribute("src", mapUrl);
 
         resolve(geotags);
+        
     })
 }
 
 
 function updateList(geotags) {
-    console.log("inupdatelist: ", geotags, "\n");
+    console.log("inupdatelist: " + geotags, "\n");
+    console.log(geotags);
     let parsedResponse = geotags;
-    let taglist = parsedResponse;
+    let taglist = parsedResponse.filterArray;
     let totalResults = parsedResponse;
     
     if (taglist !== undefined) {
         let list = document.getElementById("discoveryResults");
         list.innerHTML = "";
-        taglist.forEach(function (tag) {
+        taglist.foreach(function (tag) {
             let element = document.createElement("li");
             element.innerHTML = tag.name + "(" + tag.latitude + "," + tag.longitude + ")" + tag.hashtag;
             list.appendChild(element);
@@ -90,47 +92,30 @@ function updateList(geotags) {
 
    }
 
-//fetch tagging
-async function postAdd(geotag) {
 
-
-    let response = await fetch("http://localhost:3000/api/geotags", {        
-        method: "POST", headers: {"Content-Type": "application/json"},                  
-        body: JSON.stringify(geotag),
-    });
-
-    let emptySearch = await fetch("http://localhost:3000/api/geotags?&offset=" + "&searchterm=" + "" +
-        "&limit=" + elementsPerPage + "&latitude=" + "" + "&longitude=" + "", {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-    });
-
-    return await emptySearch.json();
-}
 
 
 async function getTagList(newSearchterm) {
-    let response = await fetch("http://localhost:3000/api/geotags?" + "&searchterm=" + newSearchterm );         //Get mit HTTP Query Parameter
-        console.log("GetTaglistResponse ", response, "\n");
+    console.log(newSearchterm);
+    let response = await fetch("http://localhost:3000/api/geotags?" + "&searchterm=" + newSearchterm + "&longitude="
+    + document.getElementById("longitude").getAttribute("value")
+    + "&latitude=" + document.getElementById("latitude").getAttribute("value"));
          return await response.json();
+         
     
 }
 
 async function postAdd(geotag) {
+let element = document.getElementById("name").value;
 
 
     let response = await fetch("http://localhost:3000/api/geotags", {          //Post mit HTTP
         method: "POST", headers: {"Content-Type": "application/json"},                      //MimeType
         body: JSON.stringify(geotag),
-    });
-
-    //let emptySearch = await fetch("http://localhost:3000/api/geotags?" +  "&searchterm=" + "&latitude=" + "" + "&longitude=" + "", {
-    //    method: "GET",
-   //     headers: {"Content-Type": "application/json"},
-  //  });
-
-  //  return await emptySearch.json();
-}
+    })
+console.log()
+return await response;
+};
 
 document.addEventListener('DOMContentLoaded', 
     (event) => {

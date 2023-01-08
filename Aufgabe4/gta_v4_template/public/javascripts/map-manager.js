@@ -30,13 +30,20 @@ class MapManager {
             return "images/mapview.jpg";
         }
         
-        let tagList = `${latitude},${longitude}|marker-start`;
-        if(tags.length > 0) {
+        // let tagList = `${latitude},${longitude}|marker-start`;
+
+        let tagList = `You,${latitude},${longitude}`;
+
+        tagList += tags.reduce((acc, tag) => `${acc}|${tag.name},${tag.latitude},${tag.longitude}`, "");
+        /*if(tags.length > 0) {
             console.log(tags);
             tagList += tags.reduce((acc, tag) => `${acc}||${tag.latitude},${tag.longitude}|flag-${tag.name}`, "");
+            
             //tagList += tags.reduce((acc, tag) => `${acc}||${tag.name},${tag.latitude},${tag.longitude}`, "")
 
         }
+        */
+       
         
         const mapQuestUrl = `https://www.mapquestapi.com/staticmap/v5/map?key=${this.#apiKey}&size=600,400&zoom=${zoom}&center=${latitude},${longitude}&locations=${tagList}`;
         console.log("Generated MapQuest URL:", mapQuestUrl);

@@ -127,15 +127,12 @@ router.post("/discovery", (req, res) => {
  * If 'latitude' and 'longitude' are available, it will be further filtered based on radius.
  */
 
-router.get('/api/geotags', (req, res) =>{
+router.get('/api/geotags/', (req, res) =>{
   let latitudeQuery = req.query.latitude;
   let longitudeQuery = req.query.longitude;
   let discoveryQuery = req.query.searchterm;
 
-  let offset = parseInt(req.query.offset);
-  let limit = parseInt(req.query.limit);
-
-  
+  console.log("Hi");  
   /**
    * location contains latitude and longitude, which is sufficient for a use in geotag-store.getNearbyGeoTags()
    * @type {{latitude: (*|Document.latitude|number), longitude: (*|Document.longitude|number)}}
@@ -153,7 +150,7 @@ router.get('/api/geotags', (req, res) =>{
   console.log(nearbyGeoTags);
 
   //Test
-  console.log(latitudeQuery, longitudeQuery, searchtermQuery);
+  console.log(latitudeQuery, longitudeQuery, discoveryQuery);
 
   if ((latitudeQuery !== undefined && longitudeQuery !== undefined && discoveryQuery !== undefined) || (latitudeQuery !="" && longitudeQuery !== "" && discoveryQuery !== "")){
     nearbyGeoTags = store.getNearbyGeoTags(location);
@@ -169,16 +166,14 @@ router.get('/api/geotags', (req, res) =>{
 
   else if(discoveryQuery !== undefined && discoveryQuery !==""){
       nearbyGeoTags = store.getTagsWithSearchterm(discoveryQuery); 
-      //filteredTags.push(nearbyGeoTags);
+      filterArray.push(nearbyGeoTags);
     }
 
   else if(latitudeQuery !== undefined && latitudeQuery !== "" && longitudeQuery !== undefined && longitudeQuery !== "") {
     nearbyGeoTags = store.getNearbyGeoTags(location);
     }
 
-  let filteredTags = nearbyGeoTags;
-
-//???
+  //???
   //if (offset !== undefined && limit !== undefined) {
    // filteredTags = [];
   //  for (let i = offset; i < (offset + limit) && (i < nearbyGeoTags.length); i++) {
@@ -187,9 +182,8 @@ router.get('/api/geotags', (req, res) =>{
    // }
 
   let result ={
-    filteredTags: filteredTags,
-    tagCount: nearbyGeoTags.length
-  }
+    filterArray: filterArray,
+      }
 
   res.status(200).json(JSON.stringify(result));
 });
@@ -231,9 +225,9 @@ router.post("/api/geotags", (req, res) => {
  * The requested tag is rendered as JSON in the response.
  */
 
-router.get("/api/geotags/:id", (req, res) => {
-    let id = req.params.id;
-    res.status(200).json(JSON.stringify(store.searchTagId(id)));
+router.get("/api/geotags/:searchterm", (req, res) => {
+    let searchterm = req.query.searchterm;
+    res.status(200).json(JSON.stringify(store.searchTagId(searchterm)));
 });
 
 
