@@ -69,6 +69,10 @@ class InMemoryGeoTagStore{
 
         let ret = [];
         let nearby = this.getNearbyGeoTags(location);
+
+        if (keyword.charAt(0) === '#') {
+            keyword = keyword.slice(1,keyword.length);
+        }
         
         nearby.find((value) => {
             //console.log(geoTag,geoTag.name);

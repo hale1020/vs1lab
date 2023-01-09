@@ -238,7 +238,7 @@ main section {
 }
 
 .footer {
-  padding: 0%;
+  padding: 1.5rem;
   display: flex;
   background-color: lightgray;
   justify-items: space-around;
@@ -247,6 +247,8 @@ main section {
   height: 5%;
   align-items: center;
   clear: right;
+  margin-top: auto;
+  bottom: 0;
 }
 
 span {
@@ -259,6 +261,37 @@ span {
 #submit-discovery {
   display: flex;
   text-align: center;
+}
+
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination input {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination input.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.container {
+  margin: 1rem;
+  position: flex;
+}
+
+.page_btn_field {
+  display: flex;
+  width: 100%;
+}
+
+.page_btn_field input {
+  margin: 0 0.2rem;
 }
 
 

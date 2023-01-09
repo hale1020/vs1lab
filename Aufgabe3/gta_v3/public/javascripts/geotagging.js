@@ -8,41 +8,17 @@
 // The console window must be opened explicitly in the browser.
 // Try to find this output in the browser...
 
-async function updateLocation(callback) {
-    let helper = new LocationHelper();
-    await LocationHelper.findLocation(callback);
+async function updateLocation() {
 
-    function callback(helper){
-        var longitudeDiscovery = document.getElementById("longitude2");
-        var latitudeDiscovery = document.getElementById("latitude2");
-        
-        var longitudeTagging = document.getElementById("longitude");
-        var latitudeTagging = document.getElementById("latitude");
+    let latitude = document.getElementById("latitude2").value;
+    let longitude = document.getElementById("longitude2").value;
 
-        longitudeDiscovery.setAttribute("value", helper.longitude);
-        latitudeDiscovery.setAttribute("value", helper.latitude);
-
-        longitudeTagging.setAttribute("value", helper.longitude);
-        latitudeTagging.setAttribute("value", helper.latitude);
-
-        var manager = new MapManager("f64689zc2fhvhu0miIiVlLaUAchTYDWv");
-    var map = document.getElementById("mapView")
-    var map_view = document.getElementById("mapView");
-    let taglist_json_string = map_view.getAttribute("data-tags");
-    let taglist_json = JSON.parse(taglist_json_string);
-
-
-    map.setAttribute("src", manager.getMapUrl(helper.latitude, helper.longitude, taglist_json));
-    }
-
-    //LocationHelper.findLocation(callback);
-
-    if (document.getElementById("longitude2").value === '' && document.getElementById("latitude2").value === '') {
+    if (longitude === '' && latitude === '') {
         await LocationHelper.findLocation((helper) => {
 
             /* Constant lat and long */
-            const latitude = helper.latitude;
-            const longitude = helper.longitude;
+            latitude = helper.latitude;
+            longitude = helper.longitude;
 
             /* Readonly Input change */
             document.getElementById("latitude").value = latitude;
@@ -52,18 +28,20 @@ async function updateLocation(callback) {
             document.getElementById("latitude2").value = latitude;
             document.getElementById("longitude2").value = longitude;
         });
-
-        
-        
     }
-    
-}  
 
 
-//Update Location????
+    console.log(latitude, longitude);
+    var manager = new MapManager("f64689zc2fhvhu0miIiVlLaUAchTYDWv");
+    var map_view = document.getElementById("mapView");
+    let taglist_json_string = map_view.getAttribute("data-tags");
+    let taglist = JSON.parse(taglist_json_string);
 
-document.addEventListener('DOMContentLoaded', 
-    (event) => {
+    map_view.setAttribute("src", manager.getMapUrl(latitude, longitude, taglist));
+
+}
+
+document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded');
     updateLocation();
 });
