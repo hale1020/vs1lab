@@ -24,7 +24,7 @@
  * - Keyword matching should include partial matches from name or hashtag fields. 
  */
 GeoTagExamples = require('./geotag-examples');
-const GeoTag = require('./geotag');
+const GeoTag = require('../models/geotag');
 
 class InMemoryGeoTagStore{
 
