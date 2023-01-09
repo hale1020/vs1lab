@@ -23,27 +23,29 @@
  * - The proximity constrained is the same as for 'getNearbyGeoTags'.
  * - Keyword matching should include partial matches from name or hashtag fields. 
  */
-GeoTagExamples = require('./geotag-examples');
-const GeoTag = require('../models/geotag');
 
-class InMemoryGeoTagStore{
+//Imports Fehlerhaft?
+GeoTagExamples = require('./geotag-examples');
+const GeoTag = require('./geotag');
+
+class InMemoryGeoTagStore {
 
     constructor() {
         this.populate();
     }
 
-    
+
     #alltags = [];
 
-    addGeoTag(GeoTag){
+    addGeoTag(GeoTag) {
         this.#alltags.push(GeoTag);
     }
 
-    get GeoTags(){
+    get GeoTags() {
         return this.#alltags;
     }
 
-    removeGeoTag(geoTag){
+    removeGeoTag(geoTag) {
         for (let i = 0; i < this.#alltags.length; i++) {
             if (this.#alltags[i].name === geoTag.name) {
                 let removedGeoTag = this.#alltags[i];
@@ -51,18 +53,18 @@ class InMemoryGeoTagStore{
                 return removedGeoTag;
             }
         }
-        }
+    }
 
-    getNearbyGeoTags(location){
+    getNearbyGeoTags(location) {
         let rad = 0.1;
 
         let entries = [];
 
-        this.#alltags.forEach((value, index, array) => {
+        this.#alltags.forEach((value) => {
 
             let longitude_difference = value.longitude - location.longitude;
             let latitude_difference = value.latitude - location.latitude;
-            if(Math.sqrt(Math.pow(longitude_difference, 2) + Math.pow(latitude_difference, 2)) <= rad) {
+            if (Math.sqrt(Math.pow(longitude_difference, 2) + Math.pow(latitude_difference, 2)) <= rad) {
                 entries.push(value);
             }
         });
@@ -72,19 +74,8 @@ class InMemoryGeoTagStore{
 
 
     //Funktion benötigt???
-    searchNearbyGeoTags(location, keyword){
-
-        let ret = [];
-        let nearby = this.getNearbyGeoTags(location);
-        
-        nearby.find((value) => {
-            //console.log(geoTag,geoTag.name);
-            if (value.name.includes(keyword) || value.hashtag.includes(keyword)) {
-                ret.push(value);
-            }
-                
-        });
-        return ret
+    searchNearbyGeoTags(tag) {
+        return this.getTagsWithSearchterm(tag.name, this.getNearbyGeoTags(tag));
 
 
     }
@@ -99,47 +90,40 @@ class InMemoryGeoTagStore{
         return ret;
     }
 
-    getTagsWithSearchterm(searchterm){
+    getTagsWithSearchterm(searchterm, location) {
+        let nearby = this.getNearbyGeoTags(location);
         let ret = [];
-        if (searchterm.charAt(0) === '#'){
-            searchterm= searchterm.slice(1); 
-            this.#alltags.find((geoTag) => {
-                let hashtag = geoTag.hashtag.slice(1); //2. slice nötig???
-                if (hashtag.includes(searchterm)) {
-                    this.getNearbyGeoTags(geoTag).find((tag) => {
-                        if (!ret.includes(tag)) ret.push(tag);
-                    });
-                }
-        })
-        }
-        else{
-            for (let i = 0; i < this.#alltags.length; i++) {
-                if (this.#alltags[i].name.includes(searchterm)) {
-                    if (!ret.includes(this.#alltags[i])){
-                        ret.push(this.#alltags[i]);
-                    }
-                    
-                }
-            }
+
+        if (searchterm.charAt(0) === '#') {
+            searchterm = searchterm.slice(1);
         }
 
-        
-        return ret; 
+        nearby.find((geoTag) => {
+            if (geoTag.name.includes(searchterm) || geoTag.hashtag.includes(searchterm)) {
+                this.getNearbyGeoTags(geoTag).find((tag) => {
+                    if (!ret.includes(tag)) ret.push(tag);
+                });
+            }
+        })
+
+
+
+        return ret;
     }
 
 
     populate() {
         GeoTagExamples.tagList.forEach((tag) => {
             //console.log(tag)
-            var newGeoTag = new GeoTag(tag[0], tag[3], tag[1], tag[2]);
+            let newGeoTag = new GeoTag(tag[0], tag[3], tag[1], tag[2]);
             //console.log(newGeoTag)
             this.addGeoTag(newGeoTag);
         });
-              };
+    };
 
-    changeGeoTag(newGeoTag,id) {
-        let oldGeoTag= this.searchTagId(id);
-        if (oldGeoTag !== null){
+    changeGeoTag(newGeoTag, id) {
+        let oldGeoTag = this.searchTagId(id);
+        if (oldGeoTag !== null) {
             this.removeGeoTag(oldGeoTag);
             this.addGeoTag(newGeoTag);
         }
@@ -148,11 +132,11 @@ class InMemoryGeoTagStore{
     TagsPerSite = 5;
     getGeoTagsByPage(site, GeoTags = this.#alltags) {
         let entries = [];
-        for(let i = (site-1)*this.TagsPerSite; i<=((site-1)*this.TagsPerSite)+(this.TagsPerSite-1); i++) {
+        for (let i = (site - 1) * this.TagsPerSite; i <= ((site - 1) * this.TagsPerSite) + (this.TagsPerSite - 1); i++) {
             let entry = GeoTags[i];
-            if(entry != null) {
+            if (entry != null) {
                 entries.push(entry);
-            }else {
+            } else {
                 break;
             }
         }

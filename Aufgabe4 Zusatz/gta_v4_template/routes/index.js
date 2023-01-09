@@ -97,7 +97,7 @@ router.post("/discovery", (req, res) => {
 
   let geoTag = new GeoTag(name, hashtag, latitude, longitude);
   let search = req.body.searchterm;
-  let nearbyGeoTags = store.searchNearbyGeoTags(geoTag, search);
+  let nearbyGeoTags = store.getNearbyGeoTags(geoTag, search);
   
   //console.log(nearbyGeoTags); //Ausgabe der nahen Tags
 
@@ -165,18 +165,6 @@ router.get('/api/geotags/', (req, res) =>{
   else {
       nearbyGeoTags = store.getTagsWithSearchterm(discoveryQuery);
     }
-
-  //???
-  //if (offset !== undefined && limit !== undefined) {
-   // filteredTags = [];
-  //  for (let i = offset; i < (offset + limit) && (i < nearbyGeoTags.length); i++) {
-   //     filteredTags.push(nearbyGeoTags[i]);
-   // }
-   // }
-
-  /*let result ={
-    filterArray: filterArray,
-      }*/
   res.status(200).json(nearbyGeoTags);
 });
 
@@ -197,9 +185,9 @@ router.post("/api/geotags", (req, res) => {
   let longitude = req.body.longitude;
   let name = req.body.name;
   let hashtag = req.body.hashtag;
-  let tag = new GeoTag(name, hashtag, latitude, longitude);
+  let newtag = new GeoTag(name, hashtag, latitude, longitude);
 
-  store.addGeoTag(tag);
+  store.addGeoTag(newtag);
   //console.log("Added geo tag", tag);
   
   res.append('URL', "api/geotags/" + req.body.name);
@@ -243,9 +231,9 @@ router.put("/api/geotags/:id", (req, res) => {
   let hashtag = req.body.hashtag;
   let name = req.body.name;
   let id = req.params.id;
-  let geoTag = new GeoTag(name, hashtag, latitude, longitude);
-  store.changeGeoTag(geoTag, id)
-  res.status(200).json(JSON.stringify(geoTag));
+  let newtag = new GeoTag(name, hashtag, latitude, longitude);
+  store.changeGeoTag(newtag, id)
+  res.status(200).json(JSON.stringify(newtag));
 });
 
 
@@ -262,11 +250,27 @@ router.put("/api/geotags/:id", (req, res) => {
 
 router.delete("/api/geotags/:id", (req, res) => {
   let id = req.params.id;
-  let geoTag = new GeoTag("empty", "empty", id, "empty");
-  let deletedResource = store.removeGeoTag(geoTag);
+  let newtag = new GeoTag(id, "empty", "empty", "empty");
+  let deletedResource = store.removeGeoTag(newtag);
   res.status(200).json(JSON.stringify(deletedResource));
 });
 
-//Bonusaufgabe??
+/**Pagination */
+
+router.get('/api/geotags/page/:id', (req, res) => {
+  let page = parseInt(req.params.id);
+
+  let longitudeQuery = req.query.longitude;
+  let latitudeQuery = req.query.latitude;
+  let searchTermQuery = req.query.searchterm;
+
+  let filtered = store.getTagsWithSearchterm(searchTermQuery);
+
+  if(longitudeQuery != null && latitudeQuery != null) {
+    filtered = store.getNearbyGeoTags(new GeoTag('', latitudeQuery,longitudeQuery))
+  }
+
+  res.status(200).json(store.getGeoTagsByPage(page, filtered));
+});
 
 module.exports = router;
