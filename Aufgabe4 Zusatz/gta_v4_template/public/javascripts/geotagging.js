@@ -17,7 +17,6 @@ async function updateLocation() {
             /* Constant lat and long */
             latitude = helper.latitude;
             longitude = helper.longitude;
-            console.log("!!!!!!!!!!!!!!!!!!!!!!",helper.latitude, helper.longitude);
 
             /* Readonly Input change */
             document.getElementById("latitude").setAttribute("value", latitude);
@@ -35,8 +34,13 @@ async function updateLocation() {
     var map_view = document.getElementById("mapView");
     let taglist_json_string = map_view.getAttribute("data-tags");
 
-    console.log(taglist_json_string);
-    let taglist = JSON.parse(taglist_json_string);
+    //console.log(taglist_json_string);
+
+    let taglist = [];
+    if(taglist_json_string != '') {
+        let taglist = JSON.parse(taglist_json_string);
+    }
+    
 
     setTimeout(function () {
         map_view.setAttribute("src", manager.getMapUrl(latitude, longitude, taglist));
@@ -95,11 +99,19 @@ async function postAdd(geotag) {
 
 
 async function getGeoTags(query) {
+    console.log("Before",query);
+    if (query.searchterm.charAt(0) === '#') {
+        query.searchterm = query.searchterm.slice(1, query.searchterm.length);
+    }
     let response = await fetch("http://localhost:3000/api/geotags?latitude=" + query.latitude + "&longitude=" + query.longitude + "&searchterm=" + query.searchterm);
+    console.log("After", query);
     return await response.json();
 }
 
 async function getGeoTagsByPage(query, page) {
+    if (query.searchterm.charAt(0) === '#') {
+        query.searchterm = query.searchterm.slice(1, query.searchterm.length);
+    }
     let response = await fetch("http://localhost:3000/api/geotags/page/" + page + "/?latitude=" + query.latitude + "&longitude=" + query.longitude + "&searchterm=" + query.searchterm);
     return await response.json();
 }
@@ -131,29 +143,20 @@ discoveryButton.addEventListener("click", function (event) {
 
     let newSearchterm = document.getElementById("searchterm").value;
 
-    if (newSearchterm.charAt(0) === '#') {
-        newSearchterm = newSearchterm.slice(1, newSearchterm.length);
-    }
-
-
     let query = {
         longitude: document.getElementById("longitude2").value,
         latitude: document.getElementById("latitude2").value,
         searchterm: newSearchterm
     }
 
-    //console.log("newSearchterm:", newSearchterm);
-    //getTagList(newSearchterm).then(updateList).then(updateMap);
+    
 
     if (paging) getGeoTagsByPage(query, 1).then(updateList).then(updateMap);
     else getGeoTags(query).then(updateList).then(updateMap);
 
 });
 
-
-const taggingButton = document.getElementById("submit-tagging");
-
-taggingButton.addEventListener("click", function (event) {
+document.getElementById("tag-form").addEventListener("submit", async function (event) {
     event.preventDefault();
 
     console.log("TaggingButton clicked");
@@ -165,22 +168,32 @@ taggingButton.addEventListener("click", function (event) {
         longitude: document.getElementById("longitude").value,
     }
     //console.log(newGeotag);
-    postAdd(newGeotag).then(updateList).then(updateMap);
-});
+    await postAdd(newGeotag);
 
-
-document.getElementById("next_page").addEventListener('click', function (evt) {
-    evt.preventDefault();
     let query = {
         longitude: document.getElementById("longitude2").value,
         latitude: document.getElementById("latitude2").value,
         searchterm: document.getElementById("searchterm").value
     }
+
+    if (paging) getGeoTagsByPage(query, 1).then(updateList).then(updateMap);
+    else getGeoTags(query).then(updateList).then(updateMap);
+});
+
+
+document.getElementById("next_page").addEventListener('click', function (evt) {
+    evt.preventDefault();
+    newSearchterm = document.getElementById("searchterm").value
+    let query = {
+        longitude: document.getElementById("longitude2").value,
+        latitude: document.getElementById("latitude2").value,
+        searchterm: newSearchterm
+    }
     let page = parseInt(document.getElementById("page").value);
 
     getGeoTagsByPage(query, page + 1).then(function (value) {
         if (value.length === 0) {
-            console.log(query, page);
+            //console.log(query, page);
             return getGeoTagsByPage(query, page);
         } else {
             document.getElementById("page").value = page + 1;
@@ -191,10 +204,12 @@ document.getElementById("next_page").addEventListener('click', function (evt) {
 
 document.getElementById("prev_page").addEventListener('click', function (evt) {
     evt.preventDefault();
+    newSearchterm = document.getElementById("searchterm").value
+    console.log(newSearchterm);
     let query = {
         longitude: document.getElementById("longitude2").value,
         latitude: document.getElementById("latitude2").value,
-        searchterm: document.getElementById("searchterm").value
+        searchterm: newSearchterm
     }
     let page = parseInt(document.getElementById("page").value);
     console.log("Page: " + page)

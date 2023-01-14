@@ -44,7 +44,7 @@ var store = new GeoTagStore();
 });*/
 
 router.get('/', (req, res) => {
-  res.render('index', {currentLatitude: null, currentLongitude:null, taglist: store.GeoTags })
+  res.render('index', {currentLatitude: null, currentLongitude:null, taglist: store.GeoTags, mapTaglist: ''})
 });
 
 //Routes from A3
@@ -54,15 +54,15 @@ router.post("/tagging", (req, res) => {
   let longitude = req.body.longitude;
   let name = req.body.name;
   let hashtag = req.body.hashtag;
-  console.log(req.body);
+  //console.log(req.body);
 
   let geoTag = new GeoTag(name, hashtag,latitude, longitude);
   let nearbyGeoTags = store.getNearbyGeoTags(geoTag);
 
   nearbyGeoTags.push(geoTag);
-  console.log(store.geoTags);
+  //console.log(store.geoTags);
   store.addGeoTag(geoTag);
-  console.log(store.geoTags);
+  //console.log(store.geoTags);
   res.render("index", {
     taglist: nearbyGeoTags,
     currentLatitude: latitude,
@@ -93,7 +93,7 @@ router.post("/discovery", (req, res) => {
   let longitude = req.body.longitude;
   let name = req.body.name;
   let hashtag = req.body.hashtag;
-  console.log(req.body);
+  //console.log(req.body);
 
   let geoTag = new GeoTag(name, hashtag, latitude, longitude);
   let search = req.body.searchterm;
@@ -102,10 +102,10 @@ router.post("/discovery", (req, res) => {
   //console.log(nearbyGeoTags); //Ausgabe der nahen Tags
 
   res.render("index", {
-    taglist: nearbyGeoTags,
+    taglist: (nearbyGeoTags),
     currentLatitude: req.body.latitude,
     currentLongitude: req.body.longitude,
-    mapTaglist: JSON.stringify(store.geoTags),
+    mapTaglist: JSON.stringify(nearbyGeoTags),
     hashTag: req.body.hashtag,
   });
 });
@@ -165,6 +165,7 @@ router.get('/api/geotags/', (req, res) =>{
   else {
       nearbyGeoTags = store.getTagsWithSearchterm(discoveryQuery);
     }
+  console.log("!!!!!!",nearbyGeoTags);
   res.status(200).json(nearbyGeoTags);
 });
 
@@ -259,18 +260,23 @@ router.delete("/api/geotags/:id", (req, res) => {
 
 router.get('/api/geotags/page/:id', (req, res) => {
   let page = parseInt(req.params.id);
-
+  let filtered = [];
   let longitudeQuery = req.query.longitude;
-  let latitudeQuery = req.query.latitude;
+  let latitudeQuery = req.query.latitude ;
   let searchTermQuery = req.query.searchterm;
 
-  let filtered = store.getTagsWithSearchterm(searchTermQuery);
+  console.log(req.query);
 
-  if(longitudeQuery != null && latitudeQuery != null) {
-    filtered = store.getNearbyGeoTags(new GeoTag('', latitudeQuery,longitudeQuery))
+  let reference_tag = new GeoTag('', '', latitudeQuery,longitudeQuery);
+
+  if(longitudeQuery && latitudeQuery) {
+    filtered = store.getTagsWithSearchterm(searchTermQuery, reference_tag);
   }
 
-  res.status(200).json(store.getGeoTagsByPage(page, filtered));
+  let result = store.getGeoTagsByPage(page, filtered);
+
+  //console.log("Result", result)
+  res.status(200).json(result);
 });
 
 module.exports = router;

@@ -32,9 +32,9 @@ class MapManager {
 
         let tagList = `${latitude},${longitude}|marker-start`;
         if(tags.length > 0) {
-            console.log("Vor Reduce:",tags);
+            //console.log("Vor Reduce:",tags);
             let tagArray = Array.from(tags);
-            console.log("Nach ToArray: ", tagArray);
+            //console.log("Nach ToArray: ", tagArray);
             tagList += tagArray.reduce((acc, tag) => `${acc}||${tag.latitude},${tag.longitude}|flag-${tag.name}`, "")
             //tagList += tags.reduce((acc, tag) => `${acc}||${tag.name},${tag.latitude},${tag.longitude}`, "")
 
@@ -51,7 +51,7 @@ class MapManager {
         */
         
         const mapQuestUrl = `https://www.mapquestapi.com/staticmap/v5/map?key=${this.#apiKey}&size=600,400&zoom=${zoom}&center=${latitude},${longitude}&locations=${tagList}`;
-        console.log("Generated MapQuest URL:", mapQuestUrl);
+        //console.log("Generated MapQuest URL:", mapQuestUrl);
 
         return mapQuestUrl;
     }

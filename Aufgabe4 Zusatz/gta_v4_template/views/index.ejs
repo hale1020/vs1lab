@@ -28,34 +28,31 @@
         <section id="tagging_section" class="main__tagging col-4">
             <h2 class="tagging__title">Tagging</h2>
 
-            <fieldset>
-                <legend>Add a new Geo Tag</legend>
-
-
                 <!-- ############### VS1Lab 1a Form 1 Start -->
-                <form id="tag-form" action="/tagging" method="post">
+                <form id="tag-form">
+                    <fieldset>
+                        <legend>Add a new Geo Tag</legend>
+                        <label for="latitude">Latitude:</label>
+                        <input type="number" name="latitude" id="latitude" placeholder="" size="20" readonly value="<%= currentLatitude %>" step="0.00000001">
 
-                    <label for="latitude">Latitude:</label>
-                    <input type="number" name="latitude" id="latitude" placeholder="" size="20" readonly value="<%= currentLatitude %>" step="0.00000001">
+                        <label for="longitude">Longitude:</label>
+                        <input type="number" name="longitude" id="longitude" size="20" readonly value="<%= currentLongitude %>" step="0.00000001">
 
-                    <label for="longitude">Longitude:</label>
-                    <input type="number" name="longitude" id="longitude" size="20" readonly value="<%= currentLongitude %>" step="0.00000001">
+                        <label for="name">Name:</label>
+                        <input type="text" name="name" id="name" placeholder="e.g. HKA Campus" size="20"
+                            maxlength="10" required>
 
-                    <label for="name">Name:</label>
-                    <input required="required" type="text" name="name" id="name" placeholder="e.g. HKA Campus" size="20"
-                        maxlength="10">
+                        <label for="hashtag">Hashtag:</label>
+                        <input type="text" name="hashtag" id="hashtag" placeholder="e.g. #HKA" size="19" maxlength="10"
+                            pattern="#[A-Za-z0-9]{1,10}">
 
-                    <label for="hashtag">Hashtag:</label>
-                    <input type="text" name="hashtag" id="hashtag" placeholder="e.g. #HKA" size="19" maxlength="10"
-                        pattern="#?[A-Za-z0-9]{1-10}">
-
-                    <label for="submit-tagging"></label>
-                    <input type="submit" name="submit-tagging" id="submit-tagging" value="Add Tag">
-                    <!-- ... your code here ... -->
-
+                        <label for="submit-tagging"></label>
+                        <input type="submit" name="submit-tagging" id="submit-tagging" value="Add Tag">
+                        <!-- ... your code here ... -->
+                    </fieldset>
                 </form>
 
-            </fieldset>
+            
             </form>
             <!-- ############### VS1Lab 1a Form 1 End -->
 
@@ -77,7 +74,7 @@
 
                     <input type="hidden" name="longitude" id="longitude2" size="30" value="<%= currentLongitude %>" ">
 
-                    <input type=" hidden" name="latitude" id="latitude2" size="30" value="<%= currentLatitude %>">
+                    <input type="hidden" name="latitude" id="latitude2" size="30" value="<%= currentLatitude %>">
 
                     <label for="submit-discovery"></label>
                     <input type="submit" name="submit-discovery" id="submit-discovery" placeholder="z.B HKA"
@@ -103,7 +100,7 @@
 
                 <div class="discovery__map col-9">
                     <img src="./images/mapview.jpg" alt="a map with locations" id="mapView"
-                        data-tags="<%= JSON.stringify(taglist) %>" />
+                        data-tags="<%= mapTaglist %>" />
                     <p>Result map</p>
                 </div>
             </div>

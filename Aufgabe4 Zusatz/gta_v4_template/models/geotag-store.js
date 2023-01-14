@@ -59,6 +59,7 @@ class InMemoryGeoTagStore {
         let rad = 0.1;
 
         let entries = [];
+        //console.log(location);
 
         this.#alltags.forEach((value) => {
 
@@ -69,15 +70,9 @@ class InMemoryGeoTagStore {
             }
         });
 
+        
+
         return entries;
-    }
-
-
-    //Funktion benötigt???
-    searchNearbyGeoTags(tag) {
-        return this.getTagsWithSearchterm(tag.name, this.getNearbyGeoTags(tag));
-
-
     }
 
     searchTagId(id) {
@@ -91,24 +86,21 @@ class InMemoryGeoTagStore {
     }
 
     getTagsWithSearchterm(searchterm, location) {
-        let nearby = this.getNearbyGeoTags(location);
-        let ret = [];
+        let entries = [];
 
-        if (searchterm.charAt(0) === '#') {
-            searchterm = searchterm.slice(1);
+        let tags = this.getNearbyGeoTags(location);
+
+        if(searchterm === undefined || searchterm.length === 0 || searchterm === '') {
+            console.log("Searchterm ", searchterm, "Lol: \n", tags);
+            return tags;
         }
-
-        nearby.find((geoTag) => {
-            if (geoTag.name.includes(searchterm) || geoTag.hashtag.includes(searchterm)) {
-                this.getNearbyGeoTags(geoTag).find((tag) => {
-                    if (!ret.includes(tag)) ret.push(tag);
-                });
+        tags.forEach((value) => {
+            if(value.name === searchterm || value.name.includes(searchterm) || value.hashtag.includes(searchterm)){
+                entries.push(value);
             }
-        })
-
-
-
-        return ret;
+        });
+        console.log("Searchterm", searchterm, "Tags: \n", entries);
+        return entries;
     }
 
 
@@ -132,7 +124,7 @@ class InMemoryGeoTagStore {
     TagsPerSite = 5;
     getGeoTagsByPage(site, GeoTags = this.#alltags) {
         let entries = [];
-        for (let i = (site - 1) * this.TagsPerSite; i <= ((site - 1) * this.TagsPerSite) + (this.TagsPerSite - 1); i++) {
+        for (let i = (site - 1) * this.TagsPerSite; i < (site * this.TagsPerSite); i++) {
             let entry = GeoTags[i];
             if (entry != null) {
                 entries.push(entry);
