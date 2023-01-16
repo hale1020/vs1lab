@@ -127,7 +127,7 @@ class InMemoryGeoTagStore {
     TagsPerSite = 5;
     getGeoTagsByPage(site, GeoTags = this.#alltags) {
         let entries = [];
-        for (let i = (site - 1) * this.TagsPerSite; i < (site * this.TagsPerSite); i++) {
+        for (let i = (site - 1) * this.TagsPerSite; i <=((site-1)*this.TagsPerSite)+(this.TagsPerSite-1); i++) {
             let entry = GeoTags[i];
             if (entry != null) {
                 entries.push(entry);

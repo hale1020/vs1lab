@@ -263,19 +263,7 @@ span {
   text-align: center;
 }
 
-
-.pagination {
-  display: inline-block;
-}
-
-.pagination input {
-  color: black;
-  float: left;
-  padding: 8px 16px;
-  text-decoration: none;
-}
-
-.pagination input.active {
+.page_btn_field input.active {
   background-color: #4CAF50;
   color: white;
 }
@@ -288,11 +276,34 @@ span {
 .page_btn_field {
   display: flex;
   width: 100%;
+  align-items: center
 }
 
 .page_btn_field input {
   margin: 0 0.2rem;
 }
+
+
+
+.discovery__upper__wrapper{
+  float: left;
+}
+
+.discovery__lower__wrapper{
+  float: right;
+}
+
+.discovery__map{
+  position: relative;
+  top: -5px;
+  display: block;
+}
+
+.discovery__wrapper{
+  display: row
+}
+
+
 
 
 @media screen and (max-width: 850px) {

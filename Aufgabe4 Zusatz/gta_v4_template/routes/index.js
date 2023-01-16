@@ -250,20 +250,19 @@ router.delete("/api/geotags/:id", (req, res) => {
 
 router.get('/api/geotags/page/:id', (req, res) => {
   let page = parseInt(req.params.id);
-  let filtered = [];
   let longitudeQuery = req.query.longitude;
   let latitudeQuery = req.query.latitude ;
   let searchTermQuery = req.query.searchterm;
 
-  //console.log(req.query);
+  let filterArray = store.getTagsWithSearchterm(searchTermQuery);
+  
 
-  let reference_tag = new GeoTag('', '', latitudeQuery,longitudeQuery);
-
-  if(longitudeQuery && latitudeQuery) {
-    filtered = store.getTagsWithSearchterm(searchTermQuery, reference_tag);
+  if(longitudeQuery != null && latitudeQuery != null) {
+    
+    filterArray = store.getNearbyGeoTags(new GeoTag('', '', latitudeQuery,longitudeQuery), filterArray);
   }
 
-  let result = store.getGeoTagsByPage(page, filtered);
+  let result = store.getGeoTagsByPage(page, filterArray);
 
   //console.log("Result", result)
   res.status(200).json(result);

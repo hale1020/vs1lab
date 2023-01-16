@@ -102,12 +102,11 @@ async function postAdd(geotag) {
 
 
 async function getGeoTags(query) {
-    console.log("Before",query);
+    //console.log("Before",query);
     if (query.searchterm.charAt(0) === '#') {
         query.searchterm = query.searchterm.slice(1, query.searchterm.length);
     }
     let response = await fetch("http://localhost:3000/api/geotags?latitude=" + query.latitude + "&longitude=" + query.longitude + "&searchterm=" + query.searchterm);
-    console.log("After", query);
     return await response.json();
 }
 
@@ -115,7 +114,9 @@ async function getGeoTagsByPage(query, page) {
     if (query.searchterm.charAt(0) === '#') {
         query.searchterm = query.searchterm.slice(1, query.searchterm.length);
     }
-    let response = await fetch("http://localhost:3000/api/geotags/page/" + page + "/?latitude=" + query.latitude + "&longitude=" + query.longitude + "&searchterm=" + query.searchterm);
+    console.log(query.searchterm);
+    
+    let response = await fetch("http://localhost:3000/api/geotags/page/" + page + "?searchterm=" + query.searchterm+ "&latitude=" + query.latitude + "&longitude=" + query.longitude);
     return await response.json();
 }
 
@@ -130,7 +131,8 @@ document.addEventListener('DOMContentLoaded',async () => {
         latitude: document.getElementById("latitude2").value,
         searchterm: document.getElementById("searchterm").value
     }
-    getGeoTagsByPage(query, 1).then(updateList).then(updateMap);
+    if (paging) getGeoTagsByPage(query, 1).then(updateList).then(updateMap);
+    else getGeoTags(query).then(updateList).then(updateMap);
 });
 
 
@@ -184,8 +186,8 @@ document.getElementById("tag-form").addEventListener("submit", async function (e
 });
 
 
-document.getElementById("next_page").addEventListener('click', function (evt) {
-    evt.preventDefault();
+document.getElementById("next_page").addEventListener('click', function (event) {
+    event.preventDefault();
     newSearchterm = document.getElementById("searchterm").value
     let query = {
         longitude: document.getElementById("longitude2").value,
@@ -205,10 +207,10 @@ document.getElementById("next_page").addEventListener('click', function (evt) {
     }).then(updateList);
 });
 
-document.getElementById("prev_page").addEventListener('click', function (evt) {
-    evt.preventDefault();
+document.getElementById("prev_page").addEventListener('click', function (event) {
+    event.preventDefault();
     newSearchterm = document.getElementById("searchterm").value
-    console.log(newSearchterm);
+    //console.log(newSearchterm);
     let query = {
         longitude: document.getElementById("longitude2").value,
         latitude: document.getElementById("latitude2").value,
