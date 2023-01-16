@@ -11,16 +11,18 @@
  */
 class GeoTag {
     
-    constructor(name,hashtag,lat,long){
+    constructor(name,hashtag,lat,long,id){
         this.name=name;
         this.hashtag=hashtag;
         this.latitude=lat;
         this.longitude=long;
+        this.id=id;
     }
     name;
     hashtag;
     latitude;
     longitude;
+    id;
     
 
     
@@ -31,6 +33,7 @@ class GeoTag {
             hashtag: this.hashtag,
             latitude: this.latitude,
             longitude: this.longitude,
+            id: this.id,
             
         }
     }

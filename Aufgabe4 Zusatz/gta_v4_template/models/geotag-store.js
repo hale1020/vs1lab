@@ -30,7 +30,10 @@ const GeoTag = require('./geotag');
 
 class InMemoryGeoTagStore {
 
+    counter;
+
     constructor() {
+        this.counter=0;
         this.populate();
     }
 
@@ -38,6 +41,8 @@ class InMemoryGeoTagStore {
     #alltags = [];
 
     addGeoTag(GeoTag) {
+        this.counter++;
+        GeoTag.id=this.counter;
         this.#alltags.push(GeoTag);
     }
 
@@ -47,7 +52,7 @@ class InMemoryGeoTagStore {
 
     removeGeoTag(geoTag) {
         for (let i = 0; i < this.#alltags.length; i++) {
-            if (this.#alltags[i].name === geoTag.name) {
+            if (this.#alltags[i].id === geoTag.id) {
                 let removedGeoTag = this.#alltags[i];
                 this.#alltags.splice(i, 1);
                 return removedGeoTag;
@@ -78,8 +83,8 @@ class InMemoryGeoTagStore {
     searchTagId(id) {
         let ret = null;
         this.#alltags.find((tag) => {
-            if (tag.name == id) {
-                ret = tag;
+            if (tag.id == id) {
+                return tag;
             }
         });
         return ret;

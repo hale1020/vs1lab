@@ -38,13 +38,16 @@ async function updateLocation() {
 
     let taglist = [];
     if(taglist_json_string != '') {
-        let taglist = JSON.parse(taglist_json_string);
+        taglist = JSON.parse(taglist_json_string);
     }
     
 
-    setTimeout(function () {
+    /*setTimeout(function () {
         map_view.setAttribute("src", manager.getMapUrl(latitude, longitude, taglist));
-    }, 1000)
+    }, 100)*/
+
+    map_view.setAttribute("src", manager.getMapUrl(latitude, longitude, taglist));
+
     return true //unsicher ob wichtig
 }
 
@@ -118,10 +121,10 @@ async function getGeoTagsByPage(query, page) {
 
 //EVENT LISTENERS
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded',async () => {
     console.log('DOM loaded');
     let query;
-    updateLocation();
+    await updateLocation();
     query = {
         longitude: document.getElementById("longitude2").value,
         latitude: document.getElementById("latitude2").value,
