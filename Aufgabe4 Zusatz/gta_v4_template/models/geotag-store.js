@@ -99,7 +99,7 @@ class InMemoryGeoTagStore {
                 entries.push(value);
             }
         });
-        console.log("Searchterm", searchterm, "Tags: \n", entries);
+        //console.log("Searchterm", searchterm, "Tags: \n", entries);
         return entries;
     }
 

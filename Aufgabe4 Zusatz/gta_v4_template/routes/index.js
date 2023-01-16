@@ -265,7 +265,7 @@ router.get('/api/geotags/page/:id', (req, res) => {
   let latitudeQuery = req.query.latitude ;
   let searchTermQuery = req.query.searchterm;
 
-  console.log(req.query);
+  //console.log(req.query);
 
   let reference_tag = new GeoTag('', '', latitudeQuery,longitudeQuery);
 
