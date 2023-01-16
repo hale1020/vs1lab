@@ -224,7 +224,7 @@ router.put("/api/geotags/:id", (req, res) => {
   let id = req.params.id;
   let newtag = new GeoTag(name, hashtag, latitude, longitude, id);
   store.changeGeoTag(newtag, id)
-  res.status(200).json(JSON.stringify(newtag));
+  res.status(200).json(newtag);
 });
 
 
@@ -243,7 +243,7 @@ router.delete("/api/geotags/:id", (req, res) => {
   let id = req.params.id;
   let newtag = new GeoTag("", "", "", "", id);
   let deletedResource = store.removeGeoTag(newtag);
-  res.status(200).json(JSON.stringify(deletedResource));
+  res.status(200).json(deletedResource);
 });
 
 /**Pagination */
