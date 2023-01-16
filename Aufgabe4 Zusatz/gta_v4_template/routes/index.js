@@ -137,37 +137,19 @@ router.get('/api/geotags/', (req, res) =>{
    * @type {{latitude: (*|Document.latitude|number), longitude: (*|Document.longitude|number)}}
    */
 
+  let referenceTag= new GeoTag("","",latitudeQuery, longitudeQuery);
 
-  let filterArray = [];
-
-  let location = {
-    latitude: latitudeQuery,
-    longitude: longitudeQuery
-}
-
-  let nearbyGeoTags = store.GeoTags;
+  let filterArray = store.getTagsWithSearchterm(discoveryQuery);
+  console.log("Filter1: ",filterArray);
 
   //console.log(nearbyGeoTags);
 
-  //console.log(latitudeQuery, longitudeQuery, discoveryQuery);
-
-  if ((latitudeQuery !== undefined && longitudeQuery !== undefined && discoveryQuery !== undefined) || (latitudeQuery !="" && longitudeQuery !== "" && discoveryQuery !== "")){
-    nearbyGeoTags = store.getNearbyGeoTags(location);
-
-    nearbyGeoTags.forEach((tag) => {
-      if (tag.name.includes(discoveryQuery) || tag.hashtag.includes(discoveryQuery)) {
-        filterArray.push(tag);
-    }
-  });
-    nearbyGeoTags = filterArray;
+  if(longitudeQuery != null && latitudeQuery != null) {
+    filterArray = store.getNearbyGeoTags(referenceTag,filterArray);
+    console.log("Filter2: ",filterArray);
   }
+  res.status(200).json(filterArray);
 
-
-  else {
-      // nearbyGeoTags = store.getTagsWithSearchterm(discoveryQuery);
-    }
-  //console.log("!!!!!!",nearbyGeoTags);
-  res.status(200).json(nearbyGeoTags);
 });
 
 
@@ -189,10 +171,12 @@ router.post("/api/geotags", (req, res) => {
   let hashtag = req.body.hashtag;
   let newtag = new GeoTag(name, hashtag, latitude, longitude);
 
-  store.addGeoTag(newtag);
+  store.addGeoTag(newtag)
+
+  let id= newtag.id;
   //console.log("Added geo tag", tag);
   
-  res.append('URL', "api/geotags/" + req.body.name);
+  res.append('URL', "api/geotags/" + id);
   res.status(201).json(store.GeoTags);
 });
 
@@ -209,7 +193,12 @@ router.post("/api/geotags", (req, res) => {
 
 router.get("/api/geotags/:id", (req, res) => {
     let id=req.params.id;
-    res.status(200).json(JSON.stringify(store.searchTagId(id)));
+    let foundGeoTags=store.searchTagId(id);
+    console.log("!!!",foundGeoTags);
+
+    res.status(200).json(foundGeoTags);
+
+
 });
 
 

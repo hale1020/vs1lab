@@ -60,46 +60,44 @@ class InMemoryGeoTagStore {
         }
     }
 
-    getNearbyGeoTags(location) {
+    getNearbyGeoTags(reference_tag, toFilter= this.#alltags) {
         let rad = 0.1;
 
         let entries = [];
-        //console.log(location);
 
-        this.#alltags.forEach((value) => {
 
-            let longitude_difference = value.longitude - location.longitude;
-            let latitude_difference = value.latitude - location.latitude;
+        toFilter.forEach((value) => {
+
+            let longitude_difference = value.longitude - reference_tag.longitude;
+            let latitude_difference = value.latitude - reference_tag.latitude;
             if (Math.sqrt(Math.pow(longitude_difference, 2) + Math.pow(latitude_difference, 2)) <= rad) {
                 entries.push(value);
             }
         });
-
-        
-
         return entries;
     }
 
     searchTagId(id) {
-        let ret = null;
+        /*let ret = null;
         this.#alltags.find((tag) => {
             if (tag.id == id) {
                 return tag;
             }
         });
-        return ret;
+        return ret;*/
+        return this.#alltags.find(value => parseInt(value.id) === parseInt(id));
     }
 
-    getTagsWithSearchterm(searchterm, location) {
+    getTagsWithSearchterm(searchterm, toFilter= this.#alltags) {
         let entries = [];
 
-        let tags = this.getNearbyGeoTags(location);
+        //let tags = this.getNearbyGeoTags(location);
 
-        if(searchterm === undefined || searchterm.length === 0 || searchterm === '') {
-            console.log("Searchterm ", searchterm, "Lol: \n", tags);
-            return tags;
+
+        if(searchterm === undefined || searchterm.length === 0 || searchterm === '') { //searchterm === ''?
+            return toFilter;
         }
-        tags.forEach((value) => {
+        toFilter.forEach((value) => {
             if(value.name === searchterm || value.name.includes(searchterm) || value.hashtag.includes(searchterm)){
                 entries.push(value);
             }
