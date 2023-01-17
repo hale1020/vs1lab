@@ -28,27 +28,18 @@ async function updateLocation() {
         });
     }
 
-    //console.log("Sollte nicht lehr sein:", latitude, longitude);
-
     var manager = new MapManager("f64689zc2fhvhu0miIiVlLaUAchTYDWv");
     var map_view = document.getElementById("mapView");
-    let taglist_json_string = map_view.getAttribute("data-tags");
-
-    //console.log(taglist_json_string);
+    /*let taglist_json_string = map_view.getAttribute("data-tags");
 
     let taglist = [];
     if(taglist_json_string != '') {
         taglist = JSON.parse(taglist_json_string);
-    }
-    
+    }*/
 
-    /*setTimeout(function () {
-        map_view.setAttribute("src", manager.getMapUrl(latitude, longitude, taglist));
-    }, 100)*/
+    map_view.setAttribute("src", manager.getMapUrl(latitude, longitude));
 
-    map_view.setAttribute("src", manager.getMapUrl(latitude, longitude, taglist));
-
-    return true //unsicher ob wichtig
+    return true
 }
 
 
@@ -114,7 +105,7 @@ async function getGeoTagsByPage(query, page) {
     if (query.searchterm.charAt(0) === '#') {
         query.searchterm = query.searchterm.slice(1, query.searchterm.length);
     }
-    console.log(query.searchterm);
+    //console.log(query.searchterm);
     
     let response = await fetch("http://localhost:3000/api/geotags/page/" + page + "?searchterm=" + query.searchterm+ "&latitude=" + query.latitude + "&longitude=" + query.longitude);
     return await response.json();
@@ -137,8 +128,6 @@ document.addEventListener('DOMContentLoaded',async () => {
 
 
 
-
-//Fehlerhaft??
 const discoveryButton = document.getElementById("submit-discovery");
 
 discoveryButton.addEventListener("click", function (event) {
@@ -154,7 +143,7 @@ discoveryButton.addEventListener("click", function (event) {
         searchterm: newSearchterm
     }
 
-    
+    document.getElementById("page").value=1;
 
     if (paging) getGeoTagsByPage(query, 1).then(updateList).then(updateMap);
     else getGeoTags(query).then(updateList).then(updateMap);
@@ -172,7 +161,6 @@ document.getElementById("tag-form").addEventListener("submit", async function (e
         latitude: document.getElementById("latitude").value,
         longitude: document.getElementById("longitude").value,
     }
-    //console.log(newGeotag);
     await postAdd(newGeotag);
 
     let query = {

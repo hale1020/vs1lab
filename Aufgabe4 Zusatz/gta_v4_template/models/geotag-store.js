@@ -46,6 +46,10 @@ class InMemoryGeoTagStore {
         this.#alltags.push(GeoTag);
     }
 
+    putGeoTag(GeoTag) {
+        this.#alltags.push(GeoTag);
+    }
+
     get GeoTags() {
         return this.#alltags;
     }
@@ -120,7 +124,7 @@ class InMemoryGeoTagStore {
         let oldGeoTag = this.searchTagId(id);
         if (oldGeoTag !== null) {
             this.removeGeoTag(oldGeoTag);
-            this.addGeoTag(newGeoTag);
+            this.putGeoTag(newGeoTag);
         }
     }
 

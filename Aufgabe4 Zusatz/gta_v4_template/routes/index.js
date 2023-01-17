@@ -176,8 +176,8 @@ router.post("/api/geotags", (req, res) => {
   let id= newtag.id;
   //console.log("Added geo tag", tag);
   
-  res.append('URL', "api/geotags/" + id);
-  res.status(201).json(store.GeoTags);
+  res.append('Location', "api/geotags/" + id);
+  res.status(201).json(newtag);
 });
 
 
@@ -221,7 +221,7 @@ router.put("/api/geotags/:id", (req, res) => {
   let longitude = req.body.longitude;
   let hashtag = req.body.hashtag;
   let name = req.body.name;
-  let id = req.params.id;
+  let id =Number(req.params.id);
   let newtag = new GeoTag(name, hashtag, latitude, longitude, id);
   store.changeGeoTag(newtag, id)
   res.status(200).json(newtag);
@@ -240,7 +240,7 @@ router.put("/api/geotags/:id", (req, res) => {
  */
 
 router.delete("/api/geotags/:id", (req, res) => {
-  let id = req.params.id;
+  let id = Number(req.params.id);
   let newtag = new GeoTag("", "", "", "", id);
   let deletedResource = store.removeGeoTag(newtag);
   res.status(200).json(deletedResource);
